@@ -1,0 +1,20 @@
+.user-detail-wrapper {
+    padding: 2em;
+}
+
+.user-detail-wrapper hr, h5 {
+    margin: 1em !important;
+}
+
+.user-detail-description {
+    border: 1px solid #ddd;
+    font-style: italic;
+    margin-left: 2em !important;
+    padding: 1em;
+}
+
+.user-wrapper .user-photo {
+    display: inline-block;
+    margin-top: 20px;
+    width: 400px;
+}

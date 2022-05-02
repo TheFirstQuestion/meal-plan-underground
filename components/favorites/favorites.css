@@ -1,0 +1,23 @@
+.user-photos-wrapper {
+    text-align: center;
+}
+
+.user-photos-wrapper img {
+    width: 75%;
+    margin: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.user-photos-wrapper img:hover {
+    cursor: pointer;
+}
+
+.cs142-main-grid-item {
+    display: block;
+    overflow: scroll;
+}
+
+.d-none {
+    display: none;
+}

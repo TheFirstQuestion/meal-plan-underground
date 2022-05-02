@@ -1,0 +1,27 @@
+.cs142-topbar-appBar {
+  justify-content: center;
+  align-items: space-between;
+}
+
+.right {
+    float: right;
+    flex-direction: column;
+    justify-content: center;
+    align-items: space-between;
+}
+
+.right .topButton {
+    margin-bottom: 5px;
+}
+
+.right * {
+    display: inline;
+}
+
+.right h6 {
+    margin-right: 20px;
+}
+
+.cs142-topbar-appBar a {
+    color: white;
+}
