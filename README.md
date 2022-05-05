@@ -30,52 +30,53 @@ _Data is initially pulled from Stanford's system, but the user can update certai
 
 | Column Name | Type | Meaning | Notes |
 | - | - | - | - |
-| `SUNet` | string (primary key) | SUNet id | never shown to users, only used internally |
-| `first_name` * | string | first name |  |
-| `last_name` * | string| last name |  |
-| `email` * | string (email address) | user's email address | assumed initially to be SUNet@stanford.edu, but user can update |
+| `user_id` | string (primary key) | uuid | |
+| `dining_hall_id` | string (foreign key) | uuid - dining hall the user is currently at |
 | `photo_path` * | string (file path) | path to the user's profile photo | relative to `/static/images/profile-photos` |
-| `swipes` * | integer | number of swipes the user currently has | we calculate this, but user can manually update to correct incorrect guesses |
-| `isDonor` * | boolean | if the user is a donor (true) or recipient (false) _right now_ |  |
-| `lifetime_donated` | integer | the total number of swipes the user has ever donated |  |
-| `lifetime_received` | integer | the total number of swipes the user has ever received |  |
+| `swipes_remaining` * | integer | number of swipes the user currently has | we calculate this, but user can manually update to correct incorrect guesses |
+| `is_donor` * | boolean | if the user is a donor (true) or recipient (false) _right now_ |  |
+| `major` | string | required field |  |
+| `biography` | string | short "about me" section |  |
 
 
 ### `Pairing` Table
 | Column Name | Type | Meaning |
 | - | - | - |
-| `id` | integer (primary key) | used to identify pairing |
-| `person_1` | User ID | one user in the pairing |
-| `person_2` | User ID | other user in the pairing |
-| `location` | DiningHall ID | place where the pair is getting their meal |
-| `meal` | Meal ID | meal that the pair is getting |
+| `pairing_id` | string (primary key) | uuid - used to identify pairing |
+| `donor_user_id` | User ID (foreign key) | uuid - one user in the pairing |
+| `receiver_user_id` | User ID (foreign key) | uuid - ther user in the pairing |
+| `swipe_completed` | boolean | default to false, used for swipe tracking |
+
+### `IceBreaker` Table
+_This table will be hardcoded for now._
+
+| Column Name | Type | Meaning |
+| - | - | - |
+| `ice_breaker_id` | string (primary key) | uuid |
+| `ice_breaker` | string | the ice breaker question |
 
 
 ### `DiningHall` Table
-_This table is hardcoded and never edited._
+_This table is hardcoded and never edited. See dining hall reference below for the current dining halls in the db._
 
-| id | Name |
-| - | - |
-| 1 | Arrillaga |
-| 2 | EVGR |
-| 3 | Wilbur |
-| 4 | Stern |
-| 5 | Branner |
-| 6 | Casper |
-| 7 | FloMo |
-| 8 | Ricker |
-| 9 | Lakeside |
+| Column Name | Type | Meaning |
+| - | - | - |
+| `dining_hall_id` | string (primary key) | uuid |
+| `dining_hall_name` | string | uuid |
 
 
-### `Meal` Table
-_This table is hardcoded and never edited._  
+| Dining Hall Reference |
+| - |
+| Arrillaga | 
+| EVGR | 
+| Wilbur | 
+| Stern | 
+| Branner | 
+| Casper | 
+| FloMo | 
+| Ricker | 
+| Lakeside | 
 
-| id | Name |
-| - | - |
-| 1 | Breakfast |
-| 2 | Lunch |
-| 3 | Dinner |
-| 4 | Brunch |
 
 ---
 ## Routes (`webServer.js`)
@@ -86,7 +87,9 @@ _This table is hardcoded and never edited._
 | `/` | redirects to Stanford login or to `/map` |
 | `/map` | shows the map view |
 | `/pairings` | shows the user's lifetime pairings and links to the conversations |
-| `/profile` | shows the user's profile and allows them to edit it |
+| `/profile/{user_id}` | a user's profile |
+| `/profile/edit/{user_id}` | an edit view for users to modify their own profile |
+
 
 ### POST
 | Path | Purpose |
