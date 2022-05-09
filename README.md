@@ -45,7 +45,15 @@ _Data is initially pulled from Stanford's system, but the user can update certai
 | `pairing_id` | string (primary key) | uuid - used to identify pairing |
 | `donor_user_id` | User ID (foreign key) | uuid - one user in the pairing |
 | `receiver_user_id` | User ID (foreign key) | uuid - ther user in the pairing |
+| `meal_id` | uuid (foreign key) | which meal they got (breakfast, lunch, dinner) |
 | `swipe_completed` | boolean | default to false, used for swipe tracking |
+
+### `Meals` Table
+_This table will be hardcoded for now._
+| Column Name | Type | Meaning |
+| - | - | - |
+| `meal_id` | string (primary key) | uuid |
+| `meal_category` | string | e.g. breakfast, lunch, dinner |
 
 ### `IceBreaker` Table
 _This table will be hardcoded for now._
