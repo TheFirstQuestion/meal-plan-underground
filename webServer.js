@@ -47,9 +47,9 @@ const fs = require("fs");
 const processFormBody = multer({storage: multer.memoryStorage()}).single('uploadedphoto');
 
 // Load the Mongoose schema for User, Photo, and SchemaInfo
-var User = require('./schema/user.js');
-var Photo = require('./schema/photo.js');
-var SchemaInfo = require('./schema/schemaInfo.js');
+// var User = require('./schema/user.js');
+// var Photo = require('./schema/photo.js');
+// var SchemaInfo = require('./schema/schemaInfo.js');
 
 mongoose.connect('mongodb://localhost/cs142project6', { useNewUrlParser: true, useUnifiedTopology: true });
 

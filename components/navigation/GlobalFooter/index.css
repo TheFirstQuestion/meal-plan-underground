@@ -1,0 +1,19 @@
+#GlobalFooter {
+    width: 100%;
+    height: 50px;
+    margin: 0;
+    color: white;
+    text-align: center;
+    background-color: #508347; /* TODO: update dynamically */
+}
+
+.footerButton {
+    padding: 0 !important;
+    margin: 0;
+    height: 100%;
+    width: 33%;
+}
+
+.footerIcon {
+    color: white;
+}

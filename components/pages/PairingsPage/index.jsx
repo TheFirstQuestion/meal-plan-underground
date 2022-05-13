@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.css';
 
-function PairingsPage() {
-    return <div>TODO: Pairings view goes here</div>;
-}
+export default function PairingsPage({...props}) {
+    useEffect(() => {
+        props.setContext("pairings");
+    }, []);
 
-export default PairingsPage;
+    return (
+        <div>TODO: Pairings view goes here</div>
+    );
+}
