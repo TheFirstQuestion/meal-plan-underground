@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Typography } from '@material-ui/core';
 import './index.css';
 
 export default function ProfilePage({...props}) {
@@ -6,10 +7,11 @@ export default function ProfilePage({...props}) {
         props.setContext("profile");
     }, []);
 
+    console.log(props);
+
     return (
         <div>
-            <div>TODO: Profile view goes here</div>
-            <div>NOTE: there is a separate page for editing a profile</div>
+            <Typography>{props.user.first_name}</Typography>
         </div>
     );
 }

@@ -16,11 +16,20 @@ import ProfilePage from './components/pages/ProfilePage';
 class Index extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
         context: "",
         user: null,
     };
     this.setContext = this.setContext.bind(this);
+
+    // Log in as the default donor
+    axios.get("/login/donor").then((response) => {
+        console.log(response.data);
+        this.setState({user: response.data});
+    }).catch((err) => {
+        console.log(err);
+    });
   }
 
   setContext(val) {
@@ -51,8 +60,12 @@ class Index extends React.Component {
             />
             <Route
               path="/profile"
-              render={props => <ProfilePage {...props}
-              setContext={this.setContext} />}
+              render={props => <ProfilePage
+                  {...props}
+                  setContext={this.setContext}
+                  user={this.state.user}
+              />}
+
             />
             <Route
               path="/icebreaker"
