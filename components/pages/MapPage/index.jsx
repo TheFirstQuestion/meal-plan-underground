@@ -20,6 +20,7 @@ import './index.css';
 // TODO: make state variable for donor/receiver
 
 const people = ['Leilenah', 'Steven', 'Hillary', 'Ellie'];
+const diningHalls = ['Arrillaga', 'Branner', 'Casper', 'EVGR', 'FloMo', 'Lakeside',  'Ricker',  'Stern',  'Wilbur'];
 const useStyles = makeStyles({
     avatar: {
       backgroundColor: grey[50],
@@ -27,7 +28,41 @@ const useStyles = makeStyles({
     },
 });
 
-  function SimpleDialog(props) {
+function CheckInDialog(props) {
+    const classes = useStyles();
+    const { onClose, selectedValue, open } = props;
+  
+    const handleClose = () => {
+      onClose(selectedValue);
+    };
+  
+    const handleListItemClick = (value) => {
+      onClose(value);
+    };
+  
+    return (
+      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+        <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">Check-In</DialogTitle>
+        <Typography className='cs278-map-questionTyp'>Which dining hall are you at?</Typography>
+        <List className='cs278-map-list'>
+          {diningHalls.map((hall) => (
+            <ListItem button onClick={() => handleListItemClick(hall)} key={hall}>
+              <ListItemText className='cs278-map-hallText' primary={hall}/>
+              {/* <Button variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} >match</Button> */}
+            </ListItem>
+          ))}
+        </List>
+      </Dialog>
+    );
+}
+CheckInDialog.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
+    selectedValue: PropTypes.string.isRequired,
+    // hall: PropTypes.string.isRequired,
+};
+
+function MatchDialog(props) {
     const classes = useStyles();
     const { onClose, selectedValue, open, hall, num } = props;
   
@@ -70,11 +105,12 @@ const useStyles = makeStyles({
     );
 }
 
-SimpleDialog.propTypes = {
+MatchDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     selectedValue: PropTypes.string.isRequired,
     hall: PropTypes.string.isRequired,
+    num: PropTypes.number.isRequired,
 };
 
 function NumberCircles({num, small}) {
@@ -98,74 +134,92 @@ function NumberCircles({num, small}) {
 export default function MapPage({...props}) {
     const [hall, setHall] = useState('');
     const [numPeople, setNumPeople] = useState(0);
-    const [open, setOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState(people[1]);
+    const [matchOpen, setMatchOpen] = useState(false);
+    const [selectedMatch, setSelectedMatch] = useState('');
+    const [hallOpen, setHallOpen] = useState(true);
+    const [selectedHall, setSelectedHall] = useState('');
     
     useEffect(() => {
         props.setContext("map");
     }, []);
 
-    const handleClickOpen = (newHall, newPeople) => {
+    const handleMatchOpen = (newHall, newPeople) => {
         setHall(newHall);
         setNumPeople(newPeople);
-        setOpen(true);
+        setMatchOpen(true);
     }
 
-    const handleClose = (value) => {
+    const handleMatchClose = (value) => {
         console.log(value);
-        setOpen(false);
-        setSelectedValue(value);
+        setMatchOpen(false);
+        setSelectedMatch(value);
+    };
+
+    const handleHallOpen = () => {
+        // setHall(newHall);
+        // setNumPeople(newPeople);
+        setHallOpen(true);
+    }
+
+    const handleHallClose = (value) => {
+        console.log(value);
+        setHallOpen(false);
+        setSelectedHall(value);
     };
 
     return (
         <div className='cs278-map-container'>
-            <div className='cs278-map-leftDiv'>
-                <div className='cs278-map-ricker' onClick={() => handleClickOpen('Ricker', 0)}>
-                    <Typography variant="h6">Ricker</Typography>
-                    <NumberCircles num={0} small={true}/>
-                </div>
-                <div className='cs278-map-lakeside' onClick={() => handleClickOpen('Lakeside', 3)}>
-                    <Typography variant="h6">Lakeside</Typography>
-                    <NumberCircles num={3} small={false}/>
-                </div>
-                <div className='cs278-map-flomo' onClick={() => handleClickOpen('Flomo', 1)}>
-                    <Typography variant="h6">FloMo</Typography>
-                    <NumberCircles num={1} small={false}/>
-                </div>
-            </div>
-            <div className='cs278-map-rightDiv'>
-                <div className='cs278-map-evgr' onClick={() => handleClickOpen('EVGR', 3)}>
-                    <Typography variant="h6">EVGR</Typography>
-                    <NumberCircles num={3} small={true}/>
-                </div>
-                <div className='cs278-map-brannerCasper'>
-                    <div className='cs278-map-brannerStern' onClick={() => handleClickOpen('Branner', 1)}>
-                        <Typography variant="h6">Branner</Typography>
-                        <NumberCircles num={1} small={false}/>
-                    </div>
-                    <div className='cs278-map-casperWilbur' onClick={() => handleClickOpen('Casper', 0)}>
-                        <Typography variant="h6">Casper</Typography>
-                        <NumberCircles num={0} small={false}/>
-                    </div>
-                </div>
-                <div className='cs278-map-arrillaga' onClick={() => handleClickOpen('Arrillaga', 4)}>
-                    <Typography variant="h6">Arrillaga</Typography>
-                    <NumberCircles num={4} small={false}/>
-                </div>
-                <div className='cs278-map-sternWilbur'>
-                    <div className='cs278-map-brannerStern' onClick={() => handleClickOpen('Stern', 2)}>
-                        <Typography variant="h6">Stern</Typography>
-                        <NumberCircles num={2} small={false}/>
-                    </div>
-                    <div className='cs278-map-casperWilbur' onClick={() => handleClickOpen('Wilbur', 4)}>
-                        <Typography variant="h6">Wilbur</Typography>
-                        <NumberCircles num={4} small={false}/>
-                    </div>
-                </div>
-                <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} hall={hall} num={numPeople}/>
-            </div>
+            <Button className='cs278-map-button' variant="outlined" onClick={handleHallOpen}>Check-In</Button>
+            <CheckInDialog selectedValue={selectedHall} open={hallOpen} onClose={handleHallClose}/>
             {/* <div>TODO: Map view goes here</div>
             <div>NOTE: Check-in popup and match list popup are accessed through this page</div> */}
+            <div className='cs278-map-halls'>
+                <div className='cs278-map-leftDiv'>
+                    <div className='cs278-map-ricker' onClick={() => handleMatchOpen('Ricker', 0)}>
+                        <Typography variant="h6">Ricker</Typography>
+                        <NumberCircles num={0} small={true}/>
+                    </div>
+                    <div className='cs278-map-lakeside' onClick={() => handleMatchOpen('Lakeside', 3)}>
+                        <Typography variant="h6">Lakeside</Typography>
+                        <NumberCircles num={3} small={false}/>
+                    </div>
+                    <div className='cs278-map-flomo' onClick={() => handleMatchOpen('Flomo', 1)}>
+                        <Typography variant="h6">FloMo</Typography>
+                        <NumberCircles num={1} small={false}/>
+                    </div>
+                </div>
+                <div className='cs278-map-rightDiv'>
+                    <div className='cs278-map-evgr' onClick={() => handleMatchOpen('EVGR', 3)}>
+                        <Typography variant="h6">EVGR</Typography>
+                        <NumberCircles num={3} small={true}/>
+                    </div>
+                    <div className='cs278-map-brannerCasper'>
+                        <div className='cs278-map-brannerStern' onClick={() => handleMatchOpen('Branner', 1)}>
+                            <Typography variant="h6">Branner</Typography>
+                            <NumberCircles num={1} small={false}/>
+                        </div>
+                        <div className='cs278-map-casperWilbur' onClick={() => handleMatchOpen('Casper', 0)}>
+                            <Typography variant="h6">Casper</Typography>
+                            <NumberCircles num={0} small={false}/>
+                        </div>
+                    </div>
+                    <div className='cs278-map-arrillaga' onClick={() => handleMatchOpen('Arrillaga', 4)}>
+                        <Typography variant="h6">Arrillaga</Typography>
+                        <NumberCircles num={4} small={false}/>
+                    </div>
+                    <div className='cs278-map-sternWilbur'>
+                        <div className='cs278-map-brannerStern' onClick={() => handleMatchOpen('Stern', 2)}>
+                            <Typography variant="h6">Stern</Typography>
+                            <NumberCircles num={2} small={false}/>
+                        </div>
+                        <div className='cs278-map-casperWilbur' onClick={() => handleMatchOpen('Wilbur', 4)}>
+                            <Typography variant="h6">Wilbur</Typography>
+                            <NumberCircles num={4} small={false}/>
+                        </div>
+                    </div>
+                    <MatchDialog selectedValue={selectedMatch} open={matchOpen} onClose={handleMatchClose} hall={hall} num={numPeople}/>
+                </div>
+            </div>
         </div>
     );
 };
