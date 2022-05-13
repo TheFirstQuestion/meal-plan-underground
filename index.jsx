@@ -30,37 +30,39 @@ class Index extends React.Component {
   render() {
     return (
       <HashRouter>
-        <GlobalHeader />
+        <GlobalHeader
+            context={this.state.context}
+        />
         <Switch>
-            <Route 
-              path="/map" 
-              render={props => <MapPage {...props} 
-              setContext={this.setContext} />} 
+            <Route
+              path="/map"
+              render={props => <MapPage {...props}
+              setContext={this.setContext} />}
             />
-            <Route 
-              path="/pairings" 
-              render={props => <PairingsPage {...props} 
-              setContext={this.setContext} />} 
+            <Route
+              path="/pairings"
+              render={props => <PairingsPage {...props}
+              setContext={this.setContext} />}
             />
-            <Route 
-              path="/profile/edit" 
-              render={props => <ProfileEditPage {...props} 
-              setContext={this.setContext} />} 
+            <Route
+              path="/profile/edit"
+              render={props => <ProfileEditPage {...props}
+              setContext={this.setContext} />}
             />
-            <Route 
-              path="/profile" 
-              render={props => <ProfilePage {...props} 
-              setContext={this.setContext} />} 
+            <Route
+              path="/profile"
+              render={props => <ProfilePage {...props}
+              setContext={this.setContext} />}
             />
-            <Route 
-              path="/icebreaker" 
-              render={props => <IcebreakerPage {...props} 
-              setContext={this.setContext} />} 
+            <Route
+              path="/icebreaker"
+              render={props => <IcebreakerPage {...props}
+              setContext={this.setContext} />}
             />
-            <Route 
-              path="/" 
-              render={props => <AuthRedirect {...props} 
-              setContext={this.setContext} />} 
+            <Route
+              path="/"
+              render={props => <AuthRedirect {...props}
+              setContext={this.setContext} />}
             />
         </Switch>
         <GlobalFooter />

@@ -1,8 +1,11 @@
 import React from 'react';
+import { Typography } from '@material-ui/core';
 import './index.css';
 
-function GlobalHeader() {
-    return <div>TODO: Global Header goes here</div>
+export default function GlobalHeader(props) {
+    return (
+        <div id="GlobalHeader">
+            <Typography>{props.context}</Typography>
+        </div>
+    );
 }
-
-export default GlobalHeader;

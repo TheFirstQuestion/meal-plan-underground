@@ -75,15 +75,15 @@ _This table is hardcoded and never edited. See dining hall reference below for t
 
 | Dining Hall Reference |
 | - |
-| Arrillaga | 
-| EVGR | 
-| Wilbur | 
-| Stern | 
-| Branner | 
-| Casper | 
-| FloMo | 
-| Ricker | 
-| Lakeside | 
+| Arrillaga |
+| EVGR |
+| Wilbur |
+| Stern |
+| Branner |
+| Casper |
+| FloMo |
+| Ricker |
+| Lakeside |
 
 
 ---
@@ -108,3 +108,7 @@ _This table is hardcoded and never edited. See dining hall reference below for t
 ---
 # Questions
 * onboarding? do we need to explain the site?
+
+---
+
+Material UI Documentation: https://v4.mui.com/  
