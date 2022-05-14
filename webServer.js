@@ -135,9 +135,7 @@ app.get('/list/dining_halls', function (request, response) {
 app.get('/list/users/:dining_hall_id', function (request, response) {
     const dining_hall_id = request.params.dining_hall_id;
 
-    // TODO: filter for donor/recipient, exclude self
-
-    User.find({dining_hall_id: dining_hall_id}).exec(function (err, data) {
+    User.find({dining_hall_id: dining_hall_id, isDonor: !request.session.LOGGED_IN_USER.isDonor}).exec(function (err, data) {
         if (err) {
             // Query returned an error
             console.error('Doing /list/users/:dining_hall_id error:', err);
@@ -146,8 +144,9 @@ app.get('/list/users/:dining_hall_id', function (request, response) {
         }
         if (data.length === 0) {
             // No one is at this dining hall
+            // probably there's a more efficient way to do this query first and then filter for the above, but whatever
             if (request.session.LOGGED_IN_USER.isDemoUser) {
-                User.find({isDemoUser: true}).exec(function (err, data) {
+                User.find({isDemoUser: true, isDonor: !request.session.LOGGED_IN_USER.isDonor}).exec(function (err, data) {
                     if (err || data === null) {
                         // Query returned an error.
                         console.error('/list/users/:dining_hall_id error:', err);

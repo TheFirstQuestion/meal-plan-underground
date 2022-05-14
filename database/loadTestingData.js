@@ -52,7 +52,7 @@ const testUsers = [
         first_name: "Hillary",
         last_name: "",
         swipes_remaining: 999,
-        isDonor: true,
+        isDonor: false,
         biography: "dope",
         major: "PD",
         isDemoUser: true,
