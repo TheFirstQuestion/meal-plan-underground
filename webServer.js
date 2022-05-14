@@ -1,34 +1,4 @@
 /* jshint node: true */
-
-/*
- * This builds on the webServer of previous projects in that it exports the current
- * directory via webserver listing on a hard code (see portno below) port. It also
- * establishes a connection to the MongoDB named 'cs142project6'.
- *
- * To start the webserver run the command:
- *    node webServer.js
- *
- * Note that anyone able to connect to localhost:portNo will be able to fetch any file accessible
- * to the current user in the current directory or any of its children.
- *
- * This webServer exports the following URLs:
- * /              -  Returns a text status message.  Good for testing web server running.
- * /test          - (Same as /test/info)
- * /test/info     -  Returns the SchemaInfo object from the database (JSON format).  Good
- *                   for testing database connectivity.
- * /test/counts   -  Returns the population counts of the cs142 collections in the database.
- *                   Format is a JSON object with properties being the collection name and
- *                   the values being the counts.
- *
- * The following URLs need to be changed to fetch their reply values from the database.
- * /user/list     -  Returns an array containing all the User objects from the database.
- *                   (JSON format)
- * /user/:id      -  Returns the User object with the _id of id. (JSON format).
- * /photosOfUser/:id' - Returns an array with all the photos of the User (id). Each photo
- *                      should have all the Comments on the Photo (JSON format)
- *
- */
-
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 var async = require('async');
@@ -46,6 +16,8 @@ const processFormBody = multer({storage: multer.memoryStorage()}).single('upload
 
 // Load the Mongoose schemas
 var User = require('./database/schemas/user.js');
+var DiningHall = require('./database/schemas/dining-hall.js');
+
 
 mongoose.connect('mongodb://localhost/meal-plan-underground', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -79,11 +51,9 @@ app.get('/test', function (request, response) {
         console.log('\n\nUsers:\n', info);
         response.end(JSON.stringify(info));
     });
-
-    console.log("LOGGED_IN_USER: " + JSON.stringify(request.session.LOGGED_IN_USER));
 });
 
-
+// Logs you in to the default donor account (Alexis)
 app.get('/login/donor', function (request, response) {
     User.findOne({first_name: "Alexis"}).exec(function (err, user) {
         if (err || user === null) {
@@ -102,6 +72,47 @@ app.get('/login/donor', function (request, response) {
         request.session.LOGGED_IN_USER = user;
         console.log("\nLOGGED_IN_USER: " + request.session.LOGGED_IN_USER);
         response.end(JSON.stringify(user));
+    });
+});
+
+// Sets the current user's dining hall
+app.post('/set/dining_hall', function (request, response) {
+    if (request.body.name === "") {
+        console.log('tried to set dining hall to none');
+        response.status(400).send(JSON.stringify({}));
+        return;
+    }
+    User.findOne({_id: request.session.LOGGED_IN_USER._id}).exec(function (err, user) {
+        if (err) {
+            // Query returned an error.
+            console.log('Doing /set/dining_hall error:', err);
+            response.status(400).send(JSON.stringify(err));
+            return;
+        }
+        if (user.length === 0) {
+            // Query didn't return an error but didn't find the object
+            response.status(400).send('Missing User');
+            return;
+        }
+        DiningHall.findOne({name: request.body.name}).exec(function (err, data) {
+            if (err || !data) {
+                // Query returned an error.
+                console.log('Doing /set/dining_hall error:', err);
+                response.status(400).send(JSON.stringify(err));
+                return;
+            }
+            if (data.length === 0) {
+                // Query didn't return an error but didn't find the object
+                response.status(400).send('Missing Hall');
+                return;
+            }
+
+            user.dining_hall_id = data._id;
+            user.save();
+            // console.log(user);
+            response.end(JSON.stringify(user));
+        });
+
     });
 });
 

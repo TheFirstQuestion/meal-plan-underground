@@ -112,3 +112,12 @@ _This table is hardcoded and never edited. See dining hall reference below for t
 ---
 
 Material UI Documentation: https://v4.mui.com/  
+
+---
+
+# Backend To Do
+* guest swipes Remaining
+* lifetime Donated
+* lifetime Received
+* switch to donate / receive
+* get list of people at a given dining hall rn

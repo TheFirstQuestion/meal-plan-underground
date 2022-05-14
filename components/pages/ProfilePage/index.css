@@ -1,0 +1,50 @@
+.MuiAvatar-root {
+    height: 35% !important;
+    width: 35% !important;
+    margin-right: 7%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#profile-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#profile-page-wrapper div.row {
+    margin-bottom: 1.5rem;
+}
+
+.MuiTypography-root {
+    display: inline-block;
+}
+
+.MuiTypography-h1 {
+    font-size: 3rem !important;
+}
+
+.MuiTypography-subtitle2 {
+    font-size: 1.2rem !important;
+    margin-right: 1.5em !important;
+}
+
+.MuiTypography-subtitle1 {
+    font-style: italic;
+}
+
+.numberBlock {
+    text-align: center;
+    margin-bottom: -2rem;
+    margin-top: 1rem;
+}
+
+#button-receive {
+    background-color: #508347;
+    color: white;
+}

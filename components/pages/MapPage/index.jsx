@@ -15,6 +15,8 @@ import PersonIcon from '@material-ui/icons/Person';
 import ShuffleIcon from '@material-ui/icons/Shuffle';
 import Typography from '@material-ui/core/Typography';
 import { grey } from '@material-ui/core/colors';
+import axios from 'axios';
+
 
 import './index.css';
 // TODO: make state variable for donor/receiver
@@ -31,15 +33,15 @@ const useStyles = makeStyles({
 function CheckInDialog(props) {
     const classes = useStyles();
     const { onClose, selectedValue, open } = props;
-  
+
     const handleClose = () => {
       onClose(selectedValue);
     };
-  
+
     const handleListItemClick = (value) => {
       onClose(value);
     };
-  
+
     return (
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">Check-In</DialogTitle>
@@ -55,6 +57,7 @@ function CheckInDialog(props) {
       </Dialog>
     );
 }
+
 CheckInDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
@@ -65,15 +68,15 @@ CheckInDialog.propTypes = {
 function MatchDialog(props) {
     const classes = useStyles();
     const { onClose, selectedValue, open, hall, num } = props;
-  
+
     const handleClose = () => {
       onClose(selectedValue);
     };
-  
+
     const handleListItemClick = (value) => {
       onClose(value);
     };
-  
+
     return (
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         {/* (TODO: get from state variable for donors/receivers) */}
@@ -90,7 +93,7 @@ function MatchDialog(props) {
               <Button variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} onClick={() => handleListItemClick(person)}>match</Button>
             </ListItem>
           ))}
-  
+
           <ListItem>
             <ListItemAvatar>
               <Avatar className={classes.avatar}>
@@ -136,9 +139,10 @@ export default function MapPage({...props}) {
     const [numPeople, setNumPeople] = useState(0);
     const [matchOpen, setMatchOpen] = useState(false);
     const [selectedMatch, setSelectedMatch] = useState('');
-    const [hallOpen, setHallOpen] = useState(true);
+    // only donors need to check in
+    const [hallOpen, setHallOpen] = useState(props.user.is_donor);
     const [selectedHall, setSelectedHall] = useState('');
-    
+
     useEffect(() => {
         props.setContext("map");
     }, []);
@@ -162,9 +166,17 @@ export default function MapPage({...props}) {
     }
 
     const handleHallClose = (value) => {
-        console.log(value);
+        console.log(props.user.first_name + " is at " + value);
+        // Save this info in the db
+        axios.post("/set/dining_hall", {name: value}).then((response) => {
+            console.log(response.data);
+        }).catch((err) => {
+            console.log(err);
+        });
         setHallOpen(false);
         setSelectedHall(value);
+        setHall(value);
+        setMatchOpen(true);
     };
 
     return (
@@ -183,7 +195,7 @@ export default function MapPage({...props}) {
                         <Typography variant="h6">Lakeside</Typography>
                         <NumberCircles num={3} small={false}/>
                     </div>
-                    <div className='cs278-map-flomo' onClick={() => handleMatchOpen('Flomo', 1)}>
+                    <div className='cs278-map-flomo' onClick={() => handleMatchOpen('FloMo', 1)}>
                         <Typography variant="h6">FloMo</Typography>
                         <NumberCircles num={1} small={false}/>
                     </div>

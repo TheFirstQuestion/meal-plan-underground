@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
-import axios from 'axios';
 import './styles/main.css';
 
 import AuthRedirect from './components/auth/AuthRedirect';
@@ -22,14 +21,11 @@ class Index extends React.Component {
         user: null,
     };
     this.setContext = this.setContext.bind(this);
+    this.setUser = this.setUser.bind(this);
+  }
 
-    // Log in as the default donor
-    axios.get("/login/donor").then((response) => {
-        console.log(response.data);
-        this.setState({user: response.data});
-    }).catch((err) => {
-        console.log(err);
-    });
+  setUser(u) {
+      this.setState({user: u});
   }
 
   setContext(val) {
@@ -43,11 +39,19 @@ class Index extends React.Component {
             context={this.state.context}
         />
         <Switch>
-            <Route
-              path="/map"
-              render={props => <MapPage {...props}
-              setContext={this.setContext} />}
-            />
+            {
+                this.state.user ? (
+                    <Route
+                      path="/map"
+                      render={props => <MapPage {...props}
+                          setContext={this.setContext}
+                          user={this.state.user}
+                          />}
+                    />
+                ):
+                    <Redirect path="/map" to="/login/donor" />
+            }
+
             <Route
               path="/pairings"
               render={props => <PairingsPage {...props}
@@ -58,25 +62,39 @@ class Index extends React.Component {
               render={props => <ProfileEditPage {...props}
               setContext={this.setContext} />}
             />
-            <Route
-              path="/profile"
-              render={props => <ProfilePage
-                  {...props}
-                  setContext={this.setContext}
-                  user={this.state.user}
-              />}
+            {
+                this.state.user ? (
+                    <Route
+                      path="/profile"
+                      render={props => <ProfilePage
+                          {...props}
+                          setContext={this.setContext}
+                          user={this.state.user}
+                      />}
+                    />
+                ):
+                    <Redirect path="/profile" to="/login/donor" />
+            }
 
-            />
             <Route
               path="/icebreaker"
               render={props => <IcebreakerPage {...props}
               setContext={this.setContext} />}
             />
-            <Route
-              path="/"
-              render={props => <AuthRedirect {...props}
-              setContext={this.setContext} />}
-            />
+            {
+                this.state.user ? (
+                    <Redirect path="/" to="/map" />
+                ):
+                    <Route
+                        path="/"
+                        render={props => <AuthRedirect
+                            {...props}
+                            setContext={this.setContext}
+                            setUser={this.setUser}
+                        />}
+                    />
+            }
+
         </Switch>
         <GlobalFooter />
       </HashRouter>

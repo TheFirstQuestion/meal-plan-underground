@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var userSchema = new mongoose.Schema({
     first_name: String,
     last_name: String,
-    // dining_hall_id: mongoose.Schema.Types.ObjectId,
+    dining_hall_id: mongoose.Schema.Types.ObjectId,
     photo_path: String,
     swipes_remaining: Number,
     isDonor: Boolean,
