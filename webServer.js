@@ -53,9 +53,31 @@ app.get('/test', function (request, response) {
     });
 });
 
-// Logs you in to the default donor account (Alexis)
-app.get('/login/donor', function (request, response) {
+// Logs you in to the default recipient account (Alexis)
+app.get('/login/recipient', function (request, response) {
     User.findOne({first_name: "Alexis"}).exec(function (err, user) {
+        if (err || user === null) {
+            // Query returned an error.
+            console.error('/login/recipient error:', err);
+            response.status(400).send(JSON.stringify(err));
+            return;
+        }
+        if (user.length === 0) {
+            // Query didn't return an error but didn't find the User object - this is also an internal error.
+            console.log("Couldn't find user");
+            response.status(400).send('Missing User');
+            return;
+        }
+
+        request.session.LOGGED_IN_USER = user;
+        console.log("\nLOGGED_IN_USER: " + request.session.LOGGED_IN_USER);
+        response.end(JSON.stringify(user));
+    });
+});
+
+// Logs you in to the default donor account (Nina)
+app.get('/login/donor', function (request, response) {
+    User.findOne({first_name: "Nina"}).exec(function (err, user) {
         if (err || user === null) {
             // Query returned an error.
             console.error('/login/donor error:', err);
@@ -63,7 +85,7 @@ app.get('/login/donor', function (request, response) {
             return;
         }
         if (user.length === 0) {
-            // Query didn't return an error but didn't find the User object - this is also an internal error.
+            // Query didn't return an error but didn't find the User object
             console.log("Couldn't find user");
             response.status(400).send('Missing User');
             return;
@@ -113,6 +135,26 @@ app.post('/set/dining_hall', function (request, response) {
             response.end(JSON.stringify(user));
         });
 
+    });
+});
+
+// List all the dining halls
+app.get('/list/dining_hall', function (request, response) {
+    DiningHall.find({}).exec(function (err, data) {
+        if (err) {
+            // Query returned an error
+            console.error('Doing /list/dining_hall error:', err);
+            response.status(400).send(JSON.stringify(err));
+            return;
+        }
+        if (data.length === 0) {
+            // Query didn't return an error but didn't find the objects
+            response.status(400).send('Missing Dining Halls');
+            return;
+        }
+
+        // We got the data - return them in JSON format
+        response.end(JSON.stringify(data));
     });
 });
 

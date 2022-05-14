@@ -8,28 +8,31 @@ export default function ProfilePage({...props}) {
         props.setContext("profile");
     }, []);
 
-    // props.user will be drop-in replacement
-    // const user = {
-    //     "_id": "627edc173b76e37fce019491",
-    //     "first_name": "Alexis",
-    //     "last_name": "Lowber",
-    //     "photo_path": "alexis.png",
-    //     "swipes_remaining": 10,
-    //     "isDonor": false,
-    //     "biography": "she's the best TA",
-    //     "major": "CS probably",
-    // };
-
     return (
         <div id="profile-page-wrapper">
             <div className="row">
                 <Avatar alt={props.user.first_name + " " + props.user.last_name} src={"../../static/images/profile-photos/" + props.user.photo_path} />
-                <Typography variant="h1">{props.user.first_name}{"\n"}{props.user.last_name}</Typography>
+                <div className="nameHeader">
+                    <Typography variant="h1">{props.user.first_name}</Typography>
+                    <br />
+                    <Typography variant="h1">{props.user.last_name}</Typography>
+                </div>
             </div>
+
             <div className="row">
                 <Typography variant="subtitle2">I want to...</Typography>
-                <Button variant="contained" id="button-receive" disableElevation>receive</Button>
-                <Button variant="outlined" id="button-donate" disableElevation>donate</Button>
+                {
+                    props.user.isDonor ? (
+                        <>
+                        <Button variant="outlined" id="button-inactive" disableElevation>receive</Button>
+                        <Button variant="contained" id="button-active" disableElevation>donate</Button>
+                        </>
+                    ):
+                        <>
+                        <Button variant="contained" id="button-active" disableElevation>receive</Button>
+                        <Button variant="outlined" id="button-inactive" disableElevation>donate</Button>
+                        </>
+                }
             </div>
             <div>
                 <Typography variant="subtitle2">Major:</Typography>

@@ -19,6 +19,47 @@ const testUsers = [
         biography: "the best CS 278 TA",
         major: "CS probably",
     },
+    {
+        first_name: "Nina",
+        last_name: "The Dog",
+        photo_path: "nina.jpg",
+        swipes_remaining: 10,
+        isDonor: true,
+        biography: "the love of my life",
+        major: "doggo",
+    },
+    {
+        first_name: "Steven",
+        last_name: "",
+        swipes_remaining: 999,
+        isDonor: true,
+        biography: "dope",
+        major: "CS-HCI",
+    },
+    {
+        first_name: "Leilenah",
+        last_name: "",
+        swipes_remaining: 999,
+        isDonor: true,
+        biography: "dope",
+        major: "CS (MS)",
+    },
+    {
+        first_name: "Hillary",
+        last_name: "",
+        swipes_remaining: 999,
+        isDonor: true,
+        biography: "dope",
+        major: "PD",
+    },
+    {
+        first_name: "Ellie",
+        last_name: "",
+        swipes_remaining: 999,
+        isDonor: true,
+        biography: "dope",
+        major: "CS",
+    },
 ];
 
 const diningHalls = [
@@ -51,7 +92,7 @@ const diningHalls = [
     },
 ];
 
-// We start by removing anything that existing in the collections.
+// Remove anything that exists in the collections
 var removePromises = [User.deleteMany({}), DiningHall.deleteMany({})];
 
 Promise.all(removePromises).then(function () {
@@ -67,12 +108,11 @@ Promise.all(removePromises).then(function () {
             major: user.major,
         }).then(function (userObj) {
             userObj.save();
-            console.log('Adding user:', userObj.first_name + ".\n" + userObj);
+            console.log('Adding user:', userObj.first_name + "\n" + userObj);
         }).catch(function (err){
             console.error('Error create user', err);
         });
     });
-
 
     var allPromises = Promise.all(userPromises).then(function () {
         // Load the dining halls

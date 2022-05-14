@@ -1,7 +1,12 @@
 .MuiAvatar-root {
     height: 35% !important;
     width: 35% !important;
-    margin-right: 7%;
+    margin-right: 3%;
+    display: inline-block;
+}
+
+.nameHeader {
+    width: calc(100% - 35% - 8%);
 }
 
 .row {
@@ -27,6 +32,7 @@
 
 .MuiTypography-h1 {
     font-size: 3rem !important;
+    margin-right: 2rem;
 }
 
 .MuiTypography-subtitle2 {
@@ -44,7 +50,7 @@
     margin-top: 1rem;
 }
 
-#button-receive {
+#button-active {
     background-color: #508347;
     color: white;
 }

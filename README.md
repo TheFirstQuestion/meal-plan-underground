@@ -47,6 +47,7 @@ _Data is initially pulled from Stanford's system, but the user can update certai
 | `receiver_user_id` | User ID (foreign key) | uuid - ther user in the pairing |
 | `meal_id` | uuid (foreign key) | which meal they got (breakfast, lunch, dinner) |
 | `swipe_completed` | boolean | default to false, used for swipe tracking |
+| `date_time` | datetime | when they got matched |
 
 ### `Meals` Table
 _This table will be hardcoded for now._
@@ -116,8 +117,16 @@ Material UI Documentation: https://v4.mui.com/
 ---
 
 # Backend To Do
-* guest swipes Remaining
-* lifetime Donated
-* lifetime Received
-* switch to donate / receive
+* guest swipes remaining
+* lifetime donated
+* lifetime received
 * get list of people at a given dining hall rn
+* get list of dining halls
+* get list of pairings
+
+probably not do:  
+* switch to donate / receive
+
+
+other to do:  
+* cookies!
