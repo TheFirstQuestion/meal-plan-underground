@@ -16,6 +16,7 @@ import ShuffleIcon from '@material-ui/icons/Shuffle';
 import Typography from '@material-ui/core/Typography';
 import { grey } from '@material-ui/core/colors';
 import axios from 'axios';
+import { Link as RouterLink } from 'react-router-dom';
 
 
 import './index.css';
@@ -62,7 +63,6 @@ CheckInDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     selectedValue: PropTypes.string.isRequired,
-    // hall: PropTypes.string.isRequired,
 };
 
 function MatchDialog(props) {
@@ -74,7 +74,8 @@ function MatchDialog(props) {
     };
 
     const handleListItemClick = (value) => {
-      onClose(value);
+
+        onClose(value);
     };
 
     return (
@@ -90,7 +91,7 @@ function MatchDialog(props) {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText primary={person}/>
-              <Button variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} onClick={() => handleListItemClick(person)}>match</Button>
+              <Button component={RouterLink} to={"/icebreaker/:" + person} variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} onClick={() => handleListItemClick(person)}>match</Button>
             </ListItem>
           ))}
 
