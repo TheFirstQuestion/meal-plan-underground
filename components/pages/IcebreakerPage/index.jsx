@@ -34,10 +34,6 @@ const useStyles = makeStyles({
         marginLeft: '1rem',
         marginBottom: '2.2rem',
     },
-    icons: {
-        width: '4rem',
-        height: 'rem',
-    }
 });
 
 function IcebreakerPage() {
@@ -52,7 +48,7 @@ function IcebreakerPage() {
                 <Typography className='cs278-icebreaker-title' variant="h6">It's a (Meal) Match Made in Heaven!</Typography>
                 <div className='cs278-icebreaker-graphics'>
                     <div className='cs278-icebreaker-avatarDiv'>
-                        <Avatar className={classes.avatar}>
+                        <Avatar sx={{ width: '6rem', height: '6rem',}} className={classes.avatar}>
                             <PersonIcon className='cs278-icebreaker-icon'/>
                         </Avatar>
                         <Typography>Person A</Typography>
@@ -72,8 +68,8 @@ function IcebreakerPage() {
                 
             </div>
             <Divider variant="middle" style={{width:'86%', backgroundColor: 'black', marginBottom: "8%"}}/>
-            <Typography className='cs278-icebreaker-ibText' variant="h6">Let's Break the Ice</Typography>
-            <Typography className='cs278-icebreaker-ibText' variant="h6">Before Your First Meal :D</Typography>
+            <Typography style={{textAlign: 'center'}} className='cs278-icebreaker-ibText' variant="h6">Let's Break the Ice</Typography>
+            <Typography style={{textAlign: 'center'}} className='cs278-icebreaker-ibText' variant="h6">Before Your First Meal :D</Typography>
             <List className='cs278-icebreaker-list'>
                 {icebreakers.map((ib) => (
                     <ListItem style={{backgroundColor: "#DDDCDC", marginTop: "2%", height: '2.5rem'}} button onClick={() => handleListItemClick(ib)} key={ib}>

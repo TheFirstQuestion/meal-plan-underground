@@ -1,0 +1,15 @@
+.cs278-pairings-container {
+    width: 88vw; /* idk??? */
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.cs278-pairings-list {
+    flex: 1;
+    width: 100%; 
+    height: 100%;
+}
+.cs278-pairings-listItem {
+    border-bottom: 1px solid black;
+}

@@ -25,6 +25,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    
 }
 .cs278-icebreaker-avatarDiv {
     flex: 1;
@@ -32,6 +33,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
 .cs278-icebreaker-list {
     flex: 3;
@@ -39,13 +41,21 @@
     flex-direction: column;
 }
 .cs278-icebreaker-icon {
-    transform: scale(1.8);
+    transform: scale(2);
 }
 .cs278-icebreaker-restoIcon {
-    transform: scale(1.6);
+    transform: scale(1.8);
 }
 .cs278-icebreaker-ibText {
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+.cs278-icebreaker-avatar {
+    background-color: grey;
+    color: black;
+    width: '6rem';
+    height: '6rem';
+    margin-bottom: '0.7rem';
 }

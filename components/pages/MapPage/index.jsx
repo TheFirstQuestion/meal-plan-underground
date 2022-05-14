@@ -51,7 +51,6 @@ function CheckInDialog(props) {
           {diningHalls.map((hall) => (
             <ListItem button onClick={() => handleListItemClick(hall)} key={hall}>
               <ListItemText className='cs278-map-hallText' primary={hall}/>
-              {/* <Button variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} >match</Button> */}
             </ListItem>
           ))}
         </List>
@@ -161,8 +160,6 @@ export default function MapPage({...props}) {
     };
 
     const handleHallOpen = () => {
-        // setHall(newHall);
-        // setNumPeople(newPeople);
         setHallOpen(true);
     }
 
