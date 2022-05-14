@@ -26,36 +26,9 @@ app.use(express.static(__dirname));
 
 // ###############################################################################################
 
-app.get('/', function (request, response) {
-    response.send('Simple web server of files from '.join(__dirname));
-});
-
-/*
- * This route can be used to check that the data is loaded correctly and retrievable
- */
-app.get('/test', function (request, response) {
-    // Fetch the existing Users
-    User.find({}, function (err, info) {
-        if (err) {
-            // Query returned an error. We pass it back to the browser with an Internal Service Error (500) error code.
-            console.error('Doing /test error:', err);
-            response.status(500).send(JSON.stringify(err));
-            return;
-        }
-        if (info.length === 0) {
-            // Query didn't return an error but didn't find any objects - this is also an internal error.
-            response.status(500).send('Missing Users');
-            return;
-        }
-        // We got the object - return it in JSON format.
-        console.log('\n\nUsers:\n', info);
-        response.end(JSON.stringify(info));
-    });
-});
-
 // Logs you in to the default recipient account (Alexis)
 app.get('/login/recipient', function (request, response) {
-    User.findOne({first_name: "Alexis"}).exec(function (err, user) {
+    User.findOne({first_name: "Alexis", isDemoUser: true}).exec(function (err, user) {
         if (err || user === null) {
             // Query returned an error.
             console.error('/login/recipient error:', err);
@@ -77,7 +50,7 @@ app.get('/login/recipient', function (request, response) {
 
 // Logs you in to the default donor account (Nina)
 app.get('/login/donor', function (request, response) {
-    User.findOne({first_name: "Nina"}).exec(function (err, user) {
+    User.findOne({first_name: "Nina", isDemoUser: true}).exec(function (err, user) {
         if (err || user === null) {
             // Query returned an error.
             console.error('/login/donor error:', err);
@@ -139,7 +112,7 @@ app.post('/set/dining_hall', function (request, response) {
 });
 
 // List all the dining halls
-app.get('/list/dining_hall', function (request, response) {
+app.get('/list/dining_halls', function (request, response) {
     DiningHall.find({}).exec(function (err, data) {
         if (err) {
             // Query returned an error
@@ -153,6 +126,43 @@ app.get('/list/dining_hall', function (request, response) {
             return;
         }
 
+        // We got the data - return them in JSON format
+        response.end(JSON.stringify(data));
+    });
+});
+
+// List all the users at a dining hall
+app.get('/list/users/:dining_hall_id', function (request, response) {
+    const dining_hall_id = request.params.dining_hall_id;
+
+    // TODO: filter for donor/recipient, exclude self
+
+    User.find({dining_hall_id: dining_hall_id}).exec(function (err, data) {
+        if (err) {
+            // Query returned an error
+            console.error('Doing /list/users/:dining_hall_id error:', err);
+            response.status(400).send(JSON.stringify(err));
+            return;
+        }
+        if (data.length === 0) {
+            // No one is at this dining hall
+            if (request.session.LOGGED_IN_USER.isDemoUser) {
+                User.find({isDemoUser: true}).exec(function (err, data) {
+                    if (err || data === null) {
+                        // Query returned an error.
+                        console.error('/list/users/:dining_hall_id error:', err);
+                        response.status(400).send(JSON.stringify(err));
+                        return;
+                    }
+                    response.end(JSON.stringify(data));
+                });
+                return;
+            } else {
+                response.status(400).send('Missing Dining Halls');
+                return;
+            }
+        }
+        console.log(data);
         // We got the data - return them in JSON format
         response.end(JSON.stringify(data));
     });

@@ -121,8 +121,8 @@ Material UI Documentation: https://v4.mui.com/
 * lifetime donated
 * lifetime received
 * get list of people at a given dining hall rn
-* get list of dining halls
 * get list of pairings
+* create a pairing
 
 probably not do:  
 * switch to donate / receive

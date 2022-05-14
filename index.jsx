@@ -19,9 +19,11 @@ class Index extends React.Component {
     this.state = {
         context: "",
         user: null,
+        DINING_HALLS: null,
     };
     this.setContext = this.setContext.bind(this);
     this.setUser = this.setUser.bind(this);
+    this.setDiningHalls = this.setDiningHalls.bind(this);
   }
 
   setUser(u) {
@@ -30,6 +32,10 @@ class Index extends React.Component {
 
   setContext(val) {
       this.setState({context: val});
+  }
+
+  setDiningHalls(val) {
+      this.setState({DINING_HALLS: val});
   }
 
   render() {
@@ -42,11 +48,12 @@ class Index extends React.Component {
             {
                 this.state.user ? (
                     <Route
-                      path="/map"
-                      render={props => <MapPage {...props}
-                          setContext={this.setContext}
-                          user={this.state.user}
-                          />}
+                        path="/map"
+                        render={props => <MapPage {...props}
+                            setContext={this.setContext}
+                            user={this.state.user}
+                            DINING_HALLS={this.state.DINING_HALLS}
+                         />}
                     />
                 ):
                     <Redirect path="/map" to="/login/donor" />
@@ -91,6 +98,7 @@ class Index extends React.Component {
                             {...props}
                             setContext={this.setContext}
                             setUser={this.setUser}
+                            setDiningHalls={this.setDiningHalls}
                         />}
                     />
             }

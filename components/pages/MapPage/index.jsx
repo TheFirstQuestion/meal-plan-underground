@@ -17,13 +17,9 @@ import Typography from '@material-ui/core/Typography';
 import { grey } from '@material-ui/core/colors';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
-
-
 import './index.css';
-// TODO: make state variable for donor/receiver
 
 const people = ['Leilenah', 'Steven', 'Hillary', 'Ellie'];
-const diningHalls = ['Arrillaga', 'Branner', 'Casper', 'EVGR', 'FloMo', 'Lakeside',  'Ricker',  'Stern',  'Wilbur'];
 const useStyles = makeStyles({
     avatar: {
       backgroundColor: grey[50],
@@ -48,7 +44,7 @@ function CheckInDialog(props) {
         <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">Check-In</DialogTitle>
         <Typography className='cs278-map-questionTyp'>Which dining hall are you at?</Typography>
         <List className='cs278-map-list'>
-          {diningHalls.map((hall) => (
+          {props.DINING_HALLS.map((hall) => (
             <ListItem button onClick={() => handleListItemClick(hall)} key={hall}>
               <ListItemText className='cs278-map-hallText' primary={hall}/>
             </ListItem>
@@ -79,8 +75,7 @@ function MatchDialog(props) {
 
     return (
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-        {/* (TODO: get from state variable for donors/receivers) */}
-        <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">{hall}: {num} donors</DialogTitle>
+        <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">{hall}: {num} {props.user.isDonor ? "recipients" : "donors"}</DialogTitle>
         <List className='cs278-map-list'>
           {people.map((person) => (
             <ListItem key={person}>
@@ -114,6 +109,7 @@ MatchDialog.propTypes = {
     selectedValue: PropTypes.string.isRequired,
     hall: PropTypes.string.isRequired,
     num: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired
 };
 
 function NumberCircles({num, small}) {
@@ -135,12 +131,13 @@ function NumberCircles({num, small}) {
 }
 
 export default function MapPage({...props}) {
+    // TODO: hall should be a DiningHall object from the database
     const [hall, setHall] = useState('');
     const [numPeople, setNumPeople] = useState(0);
     const [matchOpen, setMatchOpen] = useState(false);
     const [selectedMatch, setSelectedMatch] = useState('');
     // only donors need to check in
-    const [hallOpen, setHallOpen] = useState(props.user.is_donor);
+    const [hallOpen, setHallOpen] = useState(props.user.isDonor);
     const [selectedHall, setSelectedHall] = useState('');
 
     useEffect(() => {
@@ -148,13 +145,16 @@ export default function MapPage({...props}) {
     }, []);
 
     const handleMatchOpen = (newHall, newPeople) => {
+        // TODO: get number of people from the db
         setHall(newHall);
         setNumPeople(newPeople);
         setMatchOpen(true);
     }
 
     const handleMatchClose = (value) => {
-        console.log(value);
+        // console.log(value);
+        // TODO: return if value is null/empty
+        // TODO: create pairing (set both users to be not at a dining hall)
         setMatchOpen(false);
         setSelectedMatch(value);
     };
@@ -164,10 +164,9 @@ export default function MapPage({...props}) {
     }
 
     const handleHallClose = (value) => {
-        console.log(props.user.first_name + " is at " + value);
         // Save this info in the db
         axios.post("/set/dining_hall", {name: value}).then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
         }).catch((err) => {
             console.log(err);
         });
@@ -180,9 +179,12 @@ export default function MapPage({...props}) {
     return (
         <div className='cs278-map-container'>
             <Button className='cs278-map-button' variant="outlined" onClick={handleHallOpen}>Check-In</Button>
-            <CheckInDialog selectedValue={selectedHall} open={hallOpen} onClose={handleHallClose}/>
-            {/* <div>TODO: Map view goes here</div>
-            <div>NOTE: Check-in popup and match list popup are accessed through this page</div> */}
+            <CheckInDialog
+                selectedValue={selectedHall}
+                open={hallOpen}
+                onClose={handleHallClose}
+                DINING_HALLS={props.DINING_HALLS}
+            />
             <div className='cs278-map-halls'>
                 <div className='cs278-map-leftDiv'>
                     <div className='cs278-map-ricker' onClick={() => handleMatchOpen('Ricker', 0)}>
@@ -227,7 +229,7 @@ export default function MapPage({...props}) {
                             <NumberCircles num={4} small={false}/>
                         </div>
                     </div>
-                    <MatchDialog selectedValue={selectedMatch} open={matchOpen} onClose={handleMatchClose} hall={hall} num={numPeople}/>
+                    <MatchDialog selectedValue={selectedMatch} open={matchOpen} onClose={handleMatchClose} hall={hall} num={numPeople} user={props.user}/>
                 </div>
             </div>
         </div>

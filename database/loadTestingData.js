@@ -18,6 +18,7 @@ const testUsers = [
         isDonor: false,
         biography: "the best CS 278 TA",
         major: "CS probably",
+        isDemoUser: true,
     },
     {
         first_name: "Nina",
@@ -27,6 +28,7 @@ const testUsers = [
         isDonor: true,
         biography: "the love of my life",
         major: "doggo",
+        isDemoUser: true,
     },
     {
         first_name: "Steven",
@@ -35,6 +37,7 @@ const testUsers = [
         isDonor: true,
         biography: "dope",
         major: "CS-HCI",
+        isDemoUser: true,
     },
     {
         first_name: "Leilenah",
@@ -43,6 +46,7 @@ const testUsers = [
         isDonor: true,
         biography: "dope",
         major: "CS (MS)",
+        isDemoUser: true,
     },
     {
         first_name: "Hillary",
@@ -51,6 +55,7 @@ const testUsers = [
         isDonor: true,
         biography: "dope",
         major: "PD",
+        isDemoUser: true,
     },
     {
         first_name: "Ellie",
@@ -59,6 +64,7 @@ const testUsers = [
         isDonor: true,
         biography: "dope",
         major: "CS",
+        isDemoUser: true,
     },
 ];
 
@@ -106,6 +112,7 @@ Promise.all(removePromises).then(function () {
             isDonor: user.isDonor,
             biography: user.biography,
             major: user.major,
+            isDemoUser: user.isDemoUser,
         }).then(function (userObj) {
             userObj.save();
             console.log('Adding user:', userObj.first_name + "\n" + userObj);

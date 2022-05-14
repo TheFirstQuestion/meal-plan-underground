@@ -13,6 +13,7 @@ var userSchema = new mongoose.Schema({
     isDonor: Boolean,
     biography: String,
     major: String,
+    isDemoUser: Boolean,
 });
 
 // the schema is useless so far
