@@ -1,0 +1,51 @@
+.cs278-icebreaker-container {
+    display: flex;
+    flex-direction: column;
+    width: 87vw;   /* idk???? */
+    height: 80vh;  /* idk??? */
+}
+.cs278-icebreaker-topDiv {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.cs278-icebreaker-title {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.cs278-icebreaker-graphics {
+    flex: 3;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.cs278-icebreaker-avatarDiv {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.cs278-icebreaker-list {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+.cs278-icebreaker-icon {
+    transform: scale(1.8);
+}
+.cs278-icebreaker-restoIcon {
+    transform: scale(1.6);
+}
+.cs278-icebreaker-ibText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
