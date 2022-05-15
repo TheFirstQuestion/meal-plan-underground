@@ -8,8 +8,13 @@
         "build": "webpack --devtool eval-cheap-module-source-map --output-pathinfo",
         "build:w": "webpack --devtool eval-cheap-module-source-map --output-pathinfo --watch",
         "lint": "eslint webServer.js loadDatabase.js *.jsx components/*/*.jsx || exit 0",
-        "start": "nodemon webServer.js",
-        "load": "node database/loadTestingData.js"
+        "load": "node database/loadTestingData.js",
+        "start-nodemon": "nodemon webServer.js",
+        "start": "node webServer.js",
+        "heroku-postbuild": "npm install && npm run build"
+    },
+    "engines": {
+        "node": "16.4.2"
     },
     "author": "us",
     "license": "ISC",
@@ -21,6 +26,7 @@
         "axios": "^0.21.4",
         "bluebird": "^3.5.3",
         "body-parser": "^1.19.2",
+        "dotenv": "^16.0.1",
         "express": "^4.16.4",
         "express-session": "^1.17.2",
         "file-loader": "^3.0.1",

@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 /* jshint node: true */
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
@@ -19,7 +21,7 @@ var User = require('./database/schemas/user.js');
 var DiningHall = require('./database/schemas/dining-hall.js');
 
 
-mongoose.connect('mongodb://localhost/meal-plan-underground', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // We have the express static module (http://expressjs.com/en/starter/static-files.html) do all the work for us.
 app.use(express.static(__dirname));
