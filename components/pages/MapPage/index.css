@@ -1,15 +1,14 @@
 .cs278-map-container {
     display: flex;
     flex-direction: column;
-    width: 87vw;   /* idk???? */
-    height: 80vh;  /* idk??? */
+    width: calc(100vw - 2.9rem);
+    height: 100%;
 }
 .cs278-map-halls {
     flex: 24;
     display: flex;
     flex-direction: row;
-    width: 87vw;   /* idk???? */
-    /* height: 80vh;   */
+    width: calc(100vw - 2.9rem);
     margin-top: 8%;
 }
 .cs278-map-button {
@@ -134,7 +133,7 @@
     color: white;
 }
 .cs278-map-list {
-    width: 80.2vw; /* idk??? */
+    width: calc(94vw - 2.9rem); /* idk??? */
     height: 100%;
     background-color: rgb(172, 172, 172);
 }
@@ -143,7 +142,7 @@
     justify-content: center;
     align-items: center;
     background-color: rgb(172, 172, 172);
-    width: 68vw; /* idk??? */
+    width: calc(82vw - 2.9rem); /* idk??? */
     height: 2vh; /* idk??? */
     margin-bottom: 0;
 }

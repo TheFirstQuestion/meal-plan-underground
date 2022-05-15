@@ -14,10 +14,11 @@ import './index.css';
 const people = ['Leilenah', 'Steven', 'Hillary', 'Ellie'];
 const useStyles = makeStyles({
     avatar: {
-      backgroundColor: grey[50],
+      backgroundColor: grey[100],
       color: grey[800],
-      width: '4rem',
-      height: '4rem',
+      width: '3.5rem',
+      height: '3.5rem',
+      marginRight: '1rem',
     },
 });
 export default function PairingsPage({...props}) {
@@ -34,10 +35,10 @@ export default function PairingsPage({...props}) {
             <List className='cs278-pairings-list'>
             {people.map((person) => (
                 <div key={person}>
-                    <ListItem style={{height: '4rem'}} button onClick={() => handleListItemClick(person)} >
+                    <ListItem style={{height: '4.6rem'}} button onClick={() => handleListItemClick(person)} >
                         <ListItemAvatar>
                             <Avatar className={classes.avatar}>
-                                <PersonIcon />
+                                <PersonIcon className='cs278-pairings-icon' />
                             </Avatar>
                         </ListItemAvatar>
                         <ListItemText primary={person}/>

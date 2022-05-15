@@ -1,9 +1,21 @@
 import React, { useEffect } from 'react';
 import { Typography, Button } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
+import { makeStyles } from '@material-ui/core/styles';
+
 import './index.css';
 
+const useStyles = makeStyles({
+    avatar: {
+        height: "8rem",
+        width: "8rem",
+        marginRight: "3%",
+        display: 'inline-block',
+    },
+});
+
 export default function ProfilePage({...props}) {
+    const classes = useStyles();
     useEffect(() => {
         props.setContext("profile");
     }, []);
@@ -11,7 +23,7 @@ export default function ProfilePage({...props}) {
     return (
         <div id="profile-page-wrapper">
             <div className="row">
-                <Avatar alt={props.user.first_name + " " + props.user.last_name} src={"../../static/images/profile-photos/" + props.user.photo_path} />
+                <Avatar className={classes.avatar} alt={props.user.first_name + " " + props.user.last_name} src={"../../static/images/profile-photos/" + props.user.photo_path} />
                 <div className="nameHeader">
                     <Typography variant="h1">{props.user.first_name}</Typography>
                     <br />

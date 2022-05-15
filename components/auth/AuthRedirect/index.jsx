@@ -34,12 +34,13 @@ export default function AuthRedirect({...props}) {
 
     return (
     <>
-        <Typography variant="h1">Pick demo user</Typography>
+        <Typography style={{textAlign: 'center'}} variant="h1">Pick demo user</Typography>
         <br />
         <Button
             variant="outlined"
             disableElevation
             onClick={pickRecipient}
+            style={{margin: '6%'}}
         >
             recipient
         </Button>
@@ -48,6 +49,7 @@ export default function AuthRedirect({...props}) {
             variant="outlined"
             disableElevation
             onClick={pickDonor}
+            style={{margin: '6%'}}
         >
             donor
         </Button>

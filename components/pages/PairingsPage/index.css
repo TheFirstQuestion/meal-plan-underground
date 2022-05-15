@@ -13,3 +13,6 @@
 .cs278-pairings-listItem {
     border-bottom: 1px solid black;
 }
+.cs278-pairings-icon {
+    transform: scale(1.6);
+}

@@ -42,7 +42,7 @@ function CheckInDialog(props) {
     return (
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">Check-In</DialogTitle>
-        <Typography className='cs278-map-questionTyp'>Which dining hall are you at?</Typography>
+        <Typography style={{textAlign: 'center'}} className='cs278-map-questionTyp'>Which dining hall are you at?</Typography>
         <List className='cs278-map-list'>
           {props.DINING_HALLS.map((hall) => (
             <ListItem
@@ -143,8 +143,7 @@ export default function MapPage({...props}) {
     const [numPeople, setNumPeople] = useState(0);
     const [matchOpen, setMatchOpen] = useState(false);
     const [selectedMatch, setSelectedMatch] = useState('');
-    // only donors need to check in
-    const [hallOpen, setHallOpen] = useState(props.user.isDonor);
+    const [hallOpen, setHallOpen] = useState(true);
     const [selectedHall, setSelectedHall] = useState(null);
 
     // get the people at eat dining hall and store
@@ -163,7 +162,9 @@ export default function MapPage({...props}) {
 
 
     const handleMatchOpen = (newHall, newPeople) => {
+        console.log(newHall)
         const dh = props.DINING_HALLS.filter(h => h.name === newHall)[0];
+        console.log(dh);
         setHall(dh);
         setNumPeople(dh.numPeople);
         setMatchOpen(true);
@@ -184,16 +185,20 @@ export default function MapPage({...props}) {
     }
 
     const handleHallClose = (hall) => {
-        // Save this info in the db
-        axios.post("/set/dining_hall", {name: hall.name}).then((response) => {
-            // console.log(response.data);
-        }).catch((err) => {
-            console.log(err);
-        });
+        if (hall) {
+            // Save this info in the db
+            axios.post("/set/dining_hall", {name: hall.name}).then((response) => {
+                // console.log(response.data);
+            }).catch((err) => {
+                console.log(err);
+            });
+            setSelectedHall(hall);
+            setHall(hall);
+            setMatchOpen(true);
+            handleMatchOpen(hall.name);
+        }
         setHallOpen(false);
-        setSelectedHall(hall);
-        setHall(hall);
-        setMatchOpen(true);
+        
     };
 
     return (
@@ -207,44 +212,44 @@ export default function MapPage({...props}) {
             />
             <div className='cs278-map-halls'>
                 <div className='cs278-map-leftDiv'>
-                    <div className='cs278-map-ricker' onClick={() => handleMatchOpen('Ricker', 0)}>
+                    <div className='cs278-map-ricker' onClick={() => handleMatchOpen('Ricker')}>
                         <Typography variant="h6">Ricker</Typography>
                         <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Ricker")[0].numPeople} small={true}/>
                     </div>
-                    <div className='cs278-map-lakeside' onClick={() => handleMatchOpen('Lakeside', 3)}>
+                    <div className='cs278-map-lakeside' onClick={() => handleMatchOpen('Lakeside')}>
                         <Typography variant="h6">Lakeside</Typography>
                         <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Lakeside")[0].numPeople} small={false}/>
                     </div>
-                    <div className='cs278-map-flomo' onClick={() => handleMatchOpen('FloMo', 1)}>
+                    <div className='cs278-map-flomo' onClick={() => handleMatchOpen('FloMo')}>
                         <Typography variant="h6">FloMo</Typography>
                         <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "FloMo")[0].numPeople} small={false}/>
                     </div>
                 </div>
                 <div className='cs278-map-rightDiv'>
-                    <div className='cs278-map-evgr' onClick={() => handleMatchOpen('EVGR', 3)}>
+                    <div className='cs278-map-evgr' onClick={() => handleMatchOpen('EVGR')}>
                         <Typography variant="h6">EVGR</Typography>
                         <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "EVGR")[0].numPeople} small={true}/>
                     </div>
                     <div className='cs278-map-brannerCasper'>
-                        <div className='cs278-map-brannerStern' onClick={() => handleMatchOpen('Branner', 1)}>
+                        <div className='cs278-map-brannerStern' onClick={() => handleMatchOpen('Branner')}>
                             <Typography variant="h6">Branner</Typography>
                             <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Branner")[0].numPeople} small={false}/>
                         </div>
-                        <div className='cs278-map-casperWilbur' onClick={() => handleMatchOpen('Casper', 0)}>
+                        <div className='cs278-map-casperWilbur' onClick={() => handleMatchOpen('Casper')}>
                             <Typography variant="h6">Casper</Typography>
                             <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Casper")[0].numPeople} small={false}/>
                         </div>
                     </div>
-                    <div className='cs278-map-arrillaga' onClick={() => handleMatchOpen('Arrillaga', 4)}>
+                    <div className='cs278-map-arrillaga' onClick={() => handleMatchOpen('Arrillaga')}>
                         <Typography variant="h6">Arrillaga</Typography>
                         <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Arrillaga")[0].numPeople} small={false}/>
                     </div>
                     <div className='cs278-map-sternWilbur'>
-                        <div className='cs278-map-brannerStern' onClick={() => handleMatchOpen('Stern', 2)}>
+                        <div className='cs278-map-brannerStern' onClick={() => handleMatchOpen('Stern')}>
                             <Typography variant="h6">Stern</Typography>
                             <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Stern")[0].numPeople} small={false}/>
                         </div>
-                        <div className='cs278-map-casperWilbur' onClick={() => handleMatchOpen('Wilbur', 4)}>
+                        <div className='cs278-map-casperWilbur' onClick={() => handleMatchOpen('Wilbur')}>
                             <Typography variant="h6">Wilbur</Typography>
                             <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Wilbur")[0].numPeople} small={false}/>
                         </div>

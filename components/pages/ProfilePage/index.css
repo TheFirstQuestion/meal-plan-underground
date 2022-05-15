@@ -1,10 +1,3 @@
-.MuiAvatar-root {
-    height: 35% !important;
-    width: 35% !important;
-    margin-right: 3%;
-    display: inline-block;
-}
-
 .nameHeader {
     width: calc(100% - 35% - 8%);
 }
@@ -20,6 +13,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 78%;
 }
 
 #profile-page-wrapper div.row {
@@ -45,6 +39,7 @@
 }
 
 .numberBlock {
+    flex: 1;
     text-align: center;
     margin-bottom: -2rem;
     margin-top: 1rem;
