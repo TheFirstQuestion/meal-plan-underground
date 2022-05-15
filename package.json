@@ -11,7 +11,7 @@
         "load": "node database/loadTestingData.js",
         "start-nodemon": "nodemon webServer.js",
         "start": "node webServer.js",
-        "heroku-postbuild": "npm install && npm run build"
+        "heroku-postbuild": "npm install --force && npm run build"
     },
     "engines": {
         "node": "16.4.2"
