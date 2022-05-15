@@ -36,7 +36,8 @@ const useStyles = makeStyles({
     },
 });
 
-function IcebreakerPage() {
+function IcebreakerPage({...props}) {
+    const person = props.match.params.person.substring(1);
     const handleListItemClick = (value) => {
         console.log(value);
     };
@@ -51,7 +52,7 @@ function IcebreakerPage() {
                         <Avatar sx={{ width: '6rem', height: '6rem',}} className={classes.avatar}>
                             <PersonIcon className='cs278-icebreaker-icon'/>
                         </Avatar>
-                        <Typography>Person A</Typography>
+                        <Typography>{person}</Typography>
                     </div>
                     <div className='cs278-icebreaker-avatarDiv'>
                         <Avatar className={classes.restaurant} style={{ border: '1px solid black' }}>

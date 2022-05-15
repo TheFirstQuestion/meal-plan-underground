@@ -17,6 +17,9 @@ import Typography from '@material-ui/core/Typography';
 import { grey } from '@material-ui/core/colors';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
+import { HashRouter, Route } from "react-router-dom";
+import IcebreakerPage from '../IcebreakerPage';
+
 import './index.css';
 
 const people = ['Leilenah', 'Steven', 'Hillary', 'Ellie'];
@@ -79,19 +82,29 @@ function MatchDialog(props) {
         onClose(value);
     };
 
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     return (
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">{hall.name}: {num} {props.user.isDonor ? "recipients" : "donors"}</DialogTitle>
         <List className='cs278-map-list'>
           {people.map((person) => (
             <ListItem key={person}>
-              <ListItemAvatar>
-                <Avatar className={classes.avatar}>
-                  <PersonIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={person}/>
-              <Button component={RouterLink} to={"/icebreaker/:" + person} variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} onClick={() => handleListItemClick(person)}>match</Button>
+                <ListItemAvatar>
+                    <Avatar className={classes.avatar}>
+                        <PersonIcon />
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={person}/>
+                <HashRouter>
+                    <Button href={'#/icebreaker/:' + person} variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} >match</Button>
+                    <Route path={"/icebreaker/:person" + person} component={IcebreakerPage}/>
+                </HashRouter>
+                {/* <Button component={RouterLink} to={"/icebreaker/:" + person} variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} onClick={() => handleListItemClick(person)}>match</Button> */}
             </ListItem>
           ))}
 
@@ -102,7 +115,10 @@ function MatchDialog(props) {
               </Avatar>
             </ListItemAvatar>
             <ListItemText primary="surprise me!" />
-            <Button variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} onClick={() => handleListItemClick('Surprise')}>match</Button>
+            <HashRouter>
+                <Button href={'#/icebreaker/:' + people[getRandomInt(0, people.length - 1)]} variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} >match</Button>
+                <Route path={"/icebreaker/:person" + people[getRandomInt(0, people.length - 1)]} render={(props) => <IcebreakerPage {...props}/>}/>
+            </HashRouter>
           </ListItem>
         </List>
       </Dialog>
@@ -162,9 +178,7 @@ export default function MapPage({...props}) {
 
 
     const handleMatchOpen = (newHall, newPeople) => {
-        console.log(newHall)
         const dh = props.DINING_HALLS.filter(h => h.name === newHall)[0];
-        console.log(dh);
         setHall(dh);
         setNumPeople(dh.numPeople);
         setMatchOpen(true);
@@ -198,7 +212,6 @@ export default function MapPage({...props}) {
             handleMatchOpen(hall.name);
         }
         setHallOpen(false);
-        
     };
 
     return (

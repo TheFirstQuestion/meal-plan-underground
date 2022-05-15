@@ -84,7 +84,7 @@ class Index extends React.Component {
             }
 
             <Route
-              path="/icebreaker"
+              path="/icebreaker/:person"
               render={props => <IcebreakerPage {...props}
               setContext={this.setContext} />}
             />
