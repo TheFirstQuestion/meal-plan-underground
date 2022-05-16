@@ -1,5 +1,6 @@
-import React from 'react';
-import { Typography, Button } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { Button } from '@material-ui/core';
+import './index.css';
 
 import axios from 'axios';
 
@@ -31,28 +32,31 @@ export default function AuthRedirect({...props}) {
         });
     }
 
+    useEffect(() => {
+        props.setContext("Meal Plan Underground");
+    }, []);
 
     return (
-    <>
-        <Typography style={{textAlign: 'center'}} variant="h1">Pick demo user</Typography>
-        <br />
-        <Button
-            variant="outlined"
-            disableElevation
-            onClick={pickRecipient}
-            style={{margin: '6%'}}
-        >
-            recipient
-        </Button>
-        <br />
-        <Button
-            variant="outlined"
-            disableElevation
-            onClick={pickDonor}
-            style={{margin: '6%'}}
-        >
-            donor
-        </Button>
-    </>
+        <div className="demo-container">
+            <div className='logo-container'>
+                <img src="../../../static/images/logo.png" />
+            </div>
+            <Button
+                variant="outlined"
+                disableElevation
+                onClick={pickRecipient}
+                style={{margin: '6%'}}
+            >
+                recipient demo
+            </Button>
+            <Button
+                variant="outlined"
+                disableElevation
+                onClick={pickDonor}
+                style={{margin: '6%'}}
+            >
+                donor demo
+            </Button>
+        </div>
     );
 }

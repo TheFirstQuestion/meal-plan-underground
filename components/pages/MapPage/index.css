@@ -114,34 +114,48 @@
     display: flex;
     width: 1.75rem;
     height: 1.75rem;
-    background-color: rgb(35, 91, 223);
     border-radius: 50%;
     justify-content: center;
     align-items: center;
     margin-left: 12%;
     color: white;
 }
+
+.cs278-map-reCircles.blue {
+    background-color: rgb(35, 91, 223);
+}
+
+.cs278-map-reCircles.green {
+    background-color: rgb(80, 131, 71);
+}
+
 .cs278-map-otherCircles {
     display: flex;
     width: 3.5rem;
     height: 3.5rem;
-    background-color: rgb(35, 91, 223);
     border-radius: 50%;
     justify-content: center;
     align-items: center;
     margin-top: 18%;
     color: white;
 }
+
+.cs278-map-otherCircles.blue {
+    background-color: rgb(35, 91, 223);
+}
+
+.cs278-map-otherCircles.green {
+    background-color: rgb(80, 131, 71);
+}
+
 .cs278-map-list {
     width: calc(94vw - 2.9rem); /* idk??? */
     height: 100%;
-    background-color: rgb(172, 172, 172);
 }
 .cs278-map-dialogTitle {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(172, 172, 172);
     width: calc(82vw - 2.9rem); /* idk??? */
     height: 2vh; /* idk??? */
     margin-bottom: 0;
@@ -150,7 +164,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(172, 172, 172);
 }
 .cs278-map-hallText {
     display: flex;

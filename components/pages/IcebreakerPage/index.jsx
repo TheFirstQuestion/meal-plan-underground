@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.css';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -36,6 +36,9 @@ const useStyles = makeStyles({
 });
 
 function IcebreakerPage({...props}) {
+    useEffect(() => {
+        props.setContext("Icebreaker");
+    }, []);
 
     const handleListItemClick = (value) => {
         window.location = `mailto:yourmail@gmail.com?subject=meal plan underground match!&body=${value}`

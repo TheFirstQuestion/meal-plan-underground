@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 export default function ProfilePage({...props}) {
     const classes = useStyles();
     useEffect(() => {
-        props.setContext("profile");
+        props.setContext("Profile");
     }, []);
 
     return (

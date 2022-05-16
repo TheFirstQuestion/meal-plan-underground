@@ -23,6 +23,31 @@ const useStyles = makeStyles({
     },
 });
 
+// TODO: remove this helper when demo phase is over
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function MatchListPopup({...props}) {
     const classes = useStyles();
     const { onClose, selectedValue, open, hall, num } = props;
@@ -36,21 +61,25 @@ function MatchListPopup({...props}) {
         props.setMatched(value);
     };
 
-    function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
     const dh = props.DINING_HALLS.filter(h => h.name === hall.name)[0];
-    const people = dh.people;
-    const randomPerson = people[getRandomInt(0, people.length - 1)];
+
+    // TODO: remove the shuffling and randomness when demo phase is over
+    const people = () => {
+      const shuffledPeople = shuffle(dh.people);
+      const randomPeople = [];
+      for(let i = 0; i < num; i++) {
+        randomPeople.push(shuffledPeople[i]);
+      }
+      return randomPeople;
+    };
+    
+    const randomPerson = people()[0];
 
     return (
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">{hall.name}: {num} {props.user.isDonor ? "recipients" : "donors"}</DialogTitle>
         <List className='cs278-map-list'>
-          {people.map((person) => (
+          {people().map((person) => (
             <ListItem key={person._id}>
                 <ListItemAvatar>
                     <Avatar className={classes.avatar}>

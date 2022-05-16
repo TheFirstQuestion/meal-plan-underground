@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 });
 export default function PairingsPage({...props}) {
     useEffect(() => {
-        props.setContext("pairings");
+        props.setContext("Pairings");
     }, []);
 
     const handleListItemClick = (value) => {
