@@ -11,12 +11,12 @@ _CS 278, Spring 2022_
 ## Environment
 You will need to create a local `.env` file to run the app. This env file will be ignored by git.
 
-*Create the file*
+**Create the file**
 ```
 touch .env
 ```
 
-*Add the variables below to the file*
+**Add the variables below to the file**
 ```
 MONGODB_URI="mongodb://localhost/meal-plan-underground"
 PORT=3000
