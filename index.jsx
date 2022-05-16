@@ -20,10 +20,12 @@ class Index extends React.Component {
         context: "",
         user: null,
         DINING_HALLS: null,
+        matched: null,
     };
     this.setContext = this.setContext.bind(this);
     this.setUser = this.setUser.bind(this);
     this.setDiningHalls = this.setDiningHalls.bind(this);
+    this.setMatchedUser = this.setMatchedUser.bind(this);
   }
 
   setUser(u) {
@@ -36,6 +38,10 @@ class Index extends React.Component {
 
   setDiningHalls(val) {
       this.setState({DINING_HALLS: val});
+  }
+
+  setMatchedUser(val) {
+    this.setState({matched: val});
   }
 
   render() {
@@ -53,6 +59,7 @@ class Index extends React.Component {
                             setContext={this.setContext}
                             user={this.state.user}
                             DINING_HALLS={this.state.DINING_HALLS}
+                            setMatched={this.setMatchedUser}
                          />}
                     />
                 ):
@@ -62,6 +69,7 @@ class Index extends React.Component {
             <Route
               path="/pairings"
               render={props => <PairingsPage {...props}
+              DINING_HALLS={this.state.DINING_HALLS}
               setContext={this.setContext} />}
             />
             <Route
@@ -84,9 +92,10 @@ class Index extends React.Component {
             }
 
             <Route
-              path="/icebreaker/:person"
+              path="/icebreaker"
               render={props => <IcebreakerPage {...props}
-              setContext={this.setContext} />}
+              setContext={this.setContext}
+              matched={this.state.matched} />}
             />
             {
                 this.state.user ? (
