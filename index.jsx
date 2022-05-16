@@ -19,7 +19,7 @@ class Index extends React.Component {
     this.state = {
         context: "",
         user: null,
-        DINING_HALLS: null,
+        DINING_HALLS: [{}],
         matched: null,
     };
     this.setContext = this.setContext.bind(this);
