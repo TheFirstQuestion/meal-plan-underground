@@ -1,5 +1,7 @@
 /* jshint node: true */
 
+require('dotenv').config()
+
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
