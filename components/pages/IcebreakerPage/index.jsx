@@ -12,7 +12,6 @@ import { grey } from '@material-ui/core/colors';
 import Divider from '@material-ui/core/Divider';
 
 
-// TODO: header has no name?
 const icebreakers = ['Describe your ideal day.', "What's your favorite way to waste time?", 
     'Hottest take / Unpopular opinion?', 'What would your life theme song be?', 
     'Weirdest food combo you like?', 'Late Night vs. TAP?'];
@@ -37,9 +36,9 @@ const useStyles = makeStyles({
 });
 
 function IcebreakerPage({...props}) {
-    const person = props.match.params.person.substring(1);
+
     const handleListItemClick = (value) => {
-        console.log(value);
+        window.location = `mailto:yourmail@gmail.com?subject=meal plan underground match!&body=${value}`
     };
 
     const classes = useStyles();
@@ -52,7 +51,7 @@ function IcebreakerPage({...props}) {
                         <Avatar sx={{ width: '6rem', height: '6rem',}} className={classes.avatar}>
                             <PersonIcon className='cs278-icebreaker-icon'/>
                         </Avatar>
-                        <Typography>{person}</Typography>
+                        <Typography>{props.matched.first_name}</Typography>
                     </div>
                     <div className='cs278-icebreaker-avatarDiv'>
                         <Avatar className={classes.restaurant} style={{ border: '1px solid black' }}>

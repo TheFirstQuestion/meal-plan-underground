@@ -16,3 +16,8 @@
 .cs278-pairings-icon {
     transform: scale(1.6);
 }
+.cs278-pairings-userInfo {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
