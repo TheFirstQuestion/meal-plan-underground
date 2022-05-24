@@ -53,8 +53,8 @@ function MatchListPopup({...props}) {
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">{hall.name}: {num} {props.user.isDonor ? "recipients" : "donors"}</DialogTitle>
         <List className='cs278-map-list'>
-          { people() ?
-              people().map((person) => (
+          { people ?
+              people.map((person) => (
 
             <ListItem key={person._id}>
                 <ListItemAvatar>
