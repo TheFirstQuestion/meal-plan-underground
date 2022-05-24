@@ -1,0 +1,43 @@
+.homepage-container {
+    display: flex;
+    flex-direction: column;
+    padding: 60px !important; /* override global header styles */
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.login-input {
+    width: 100%;
+}
+
+.login-btn, .register-btn {
+    width: 100%;
+}
+
+.register-container {
+    background-color: white;
+    border-radius: 4px;
+    padding: 30px 20px;
+}
+
+.register-text {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.register-title {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.register-input {
+    width: 100%;
+}
+
+.register-error-body, .login-error-body {
+    color: red;
+}

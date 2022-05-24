@@ -14,6 +14,8 @@ var userSchema = new mongoose.Schema({
     biography: String,
     major: String,
     isDemoUser: Boolean,
+    email: String,
+    password: String,
 });
 
 // the schema is useless so far
