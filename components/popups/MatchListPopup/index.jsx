@@ -53,7 +53,9 @@ function MatchListPopup({...props}) {
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">{hall.name}: {num} {props.user.isDonor ? "recipients" : "donors"}</DialogTitle>
         <List className='cs278-map-list'>
-          {people?.map((person) => (
+          { people() ?
+              people().map((person) => (
+
             <ListItem key={person._id}>
                 <ListItemAvatar>
                     <Avatar className={classes.avatar}>
@@ -71,7 +73,8 @@ function MatchListPopup({...props}) {
                 </HashRouter>
                 {/* <Button component={RouterLink} to={"/icebreaker/:" + person} variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} onClick={() => handleListItemClick(person)}>match</Button> */}
             </ListItem>
-          ))}
+        )) : <></>
+      }
           <ListItem>
             <ListItemAvatar>
               <Avatar className={classes.avatar}>

@@ -18,8 +18,10 @@ const processFormBody = multer({storage: multer.memoryStorage()}).single('upload
 const bcrypt = require('bcrypt');
 
 // Load the Mongoose schemas
-var User = require('./database/schemas/user.js');
-var DiningHall = require('./database/schemas/dining-hall.js');
+var {User} = require('./database/schemas/user.js');
+var {DiningHall} = require('./database/schemas/dining-hall.js');
+var {Meal} = require('./database/schemas/meal.js');
+var Pairing = require('./database/schemas/pairing.js');
 
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -227,9 +229,32 @@ app.get('/list/users/:dining_hall_id', function (request, response) {
     });
 });
 
+// List all the users the current user has paired with
+app.get('/list/pairings', function (request, response) {
+    // Where current user is either donor or recipient
+    Pairing.find({ $or: [
+            { donor: request.session.LOGGED_IN_USER },
+            { recipient: request.session.LOGGED_IN_USER }
+        ]}).exec(function (err, data) {
+        if (err) {
+            // Query returned an error
+            console.error('Doing /list/pairings error:', err);
+            response.status(400).send(JSON.stringify(err));
+            return;
+        }
+        // console.log(data);
+        if (data.length === 0) {
+            response.status(200).send('No Pairings');
+            return;
+        } else {
+            // We got the data - return them in JSON format
+            response.end(JSON.stringify(data));
+        }
+    });
+});
+
 
 // ###############################################################################################
-
 
 /*
  * URL /user/list - Return all the User objects.

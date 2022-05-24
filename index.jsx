@@ -66,17 +66,32 @@ class Index extends React.Component {
                     <Redirect path="/map" to="/login/donor" />
             }
 
-            <Route
-              path="/pairings"
-              render={props => <PairingsPage {...props}
-              DINING_HALLS={this.state.DINING_HALLS}
-              setContext={this.setContext} />}
-            />
-            <Route
-              path="/profile/edit"
-              render={props => <ProfileEditPage {...props}
-              setContext={this.setContext} />}
-            />
+            {
+                this.state.user ? (
+                    <Route
+                        path="/pairings"
+                        render={props => <PairingsPage {...props}
+                            DINING_HALLS={this.state.DINING_HALLS}
+                            user={this.state.user}
+                            setContext={this.setContext}
+                        />}
+                    />
+                ):
+                    <Redirect path="/map" to="/login/donor" />
+            }
+
+            {
+                this.state.user ? (
+                    <Route
+                        path="/profile/edit"
+                        render={props => <ProfileEditPage {...props}
+                            setContext={this.setContext}
+                        />}
+                    />
+                ):
+                    <Redirect path="/map" to="/login/donor" />
+            }
+
             {
                 this.state.user ? (
                     <Route
@@ -90,13 +105,19 @@ class Index extends React.Component {
                 ):
                     <Redirect path="/profile" to="/login/donor" />
             }
+            
+            {
+                this.state.user ? (
+                    <Route
+                      path="/icebreaker"
+                      render={props => <IcebreakerPage {...props}
+                      setContext={this.setContext}
+                      matched={this.state.matched} />}
+                    />
+                ):
+                    <Redirect path="/icebreaker" to="/login/donor" />
+            }
 
-            <Route
-              path="/icebreaker"
-              render={props => <IcebreakerPage {...props}
-              setContext={this.setContext}
-              matched={this.state.matched} />}
-            />
             {
                 this.state.user ? (
                     <Redirect path="/" to="/map" />

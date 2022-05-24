@@ -14,7 +14,7 @@ var userSchema = new mongoose.Schema({
     biography: String,
     major: String,
     isDemoUser: Boolean,
-    email: String,
+    emailPrefix: String,
     password: String,
 });
 
@@ -23,4 +23,4 @@ var userSchema = new mongoose.Schema({
 var User = mongoose.model('User', userSchema);
 
 // make this available to our users in our Node applications
-module.exports = User;
+module.exports = {User, userSchema};

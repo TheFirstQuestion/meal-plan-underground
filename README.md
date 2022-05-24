@@ -6,7 +6,6 @@ _CS 278, Spring 2022_
 ## Install
 `npm install`   
 `npm install -g nodemon`
-<!-- `cd test && npm install mocha && cd ..` - Install before running test suite.   -->
 
 ## Environment
 You will need to create a local `.env` file to run the app. This env file will be ignored by git.
@@ -32,9 +31,6 @@ PORT=3000
 
 ## Testing
 `npm run lint` - Runs ESLint on all the project's JavaScript files.
-<!-- `node loadDatabase.js; test/node_modules/.bin/mocha test/serverApiTest.js` - Runs the test suite for Problem 1  
-`node loadDatabase.js; test/node_modules/.bin/mocha test/sessionInputApiTest.js` - Runs the test suite for other problem, on a fresh load of the data  
-`node loadDatabase.js; test/node_modules/.bin/mocha test/serverApiTest.js; node loadDatabase.js; test/node_modules/.bin/mocha test/sessionInputApiTest.js` - Run all the tests, refreshing the data before each -->
 
 ---
 ## Data Organization (`/schema/*`)
@@ -48,7 +44,7 @@ _Data is initially pulled from Stanford's system, but the user can update certai
 | `dining_hall_id` | string (foreign key) | uuid - dining hall the user is currently at |
 | `photo_path` * | string (file path) | path to the user's profile photo | relative to `/static/images/profile-photos` |
 | `swipes_remaining` * | integer | number of swipes the user currently has | we calculate this, but user can manually update to correct incorrect guesses |
-| `is_donor` * | boolean | if the user is a donor (true) or recipient (false) _right now_ |  |
+| `isDonor` * | boolean | if the user is a donor (true) or recipient (false) _right now_ |  |
 | `major` | string | required field |  |
 | `biography` | string | short "about me" section |  |
 | `email` | string |  | |
@@ -62,7 +58,7 @@ _Data is initially pulled from Stanford's system, but the user can update certai
 | - | - | - |
 | `pairing_id` | string (primary key) | uuid - used to identify pairing |
 | `donor_user_id` | User ID (foreign key) | uuid - one user in the pairing |
-| `receiver_user_id` | User ID (foreign key) | uuid - ther user in the pairing |
+| `recipient_user_id` | User ID (foreign key) | uuid - ther user in the pairing |
 | `meal_id` | uuid (foreign key) | which meal they got (breakfast, lunch, dinner) |
 | `swipe_completed` | boolean | default to false, used for swipe tracking |
 | `date_time` | datetime | when they got matched |
@@ -71,8 +67,8 @@ _Data is initially pulled from Stanford's system, but the user can update certai
 _This table will be hardcoded for now._
 | Column Name | Type | Meaning |
 | - | - | - |
-| `meal_id` | string (primary key) | uuid |
-| `meal_category` | string | e.g. breakfast, lunch, dinner |
+| `id` | string (primary key) | uuid |
+| `name` | string | e.g. breakfast, lunch, dinner |
 
 ### `DiningHall` Table
 _This table is hardcoded and never edited. See dining hall reference below for the current dining halls in the db._
@@ -132,6 +128,7 @@ Material UI Documentation: https://v4.mui.com/
 * get list of people at a given dining hall rn
 * get list of pairings
 * create a pairing
+
 
 probably not do:  
 * switch to donate / receive
