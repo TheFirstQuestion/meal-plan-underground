@@ -57,9 +57,9 @@ app.post('/register', function (request, response) {
 
 app.post('/login', function (request, response) {
     const email = request.body.email;
-    const password = request.body.password; 
-    
-    User.findOne({email: email}).select("_id first_name last_name dining_hall_id isDonor email password").exec(function (err, user) {
+    const password = request.body.password;
+
+    User.findOne({email: email}).exec(function (err, user) {
         bcrypt.compare(password, user.password).then(function(result) {
             if (result == false) {
                 // Password was incorrect.
@@ -196,7 +196,7 @@ app.get('/list/dining_halls', function (request, response) {
 // List all the users at a dining hall
 app.get('/list/users/:dining_hall_id', function (request, response) {
     const dining_hall_id = request.params.dining_hall_id;
-    
+
     User.find({dining_hall_id: dining_hall_id, isDonor: !request.session.LOGGED_IN_USER.isDonor}).exec(function (err, data) {
         if (err) {
             // Query returned an error

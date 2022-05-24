@@ -28,11 +28,12 @@ function CheckInPopup(props) {
             <ListItem
                 button
                 onClick={() => handleListItemClick(hall)}
-                key={hall.name}
+                key={hall.name + "-item"}
             >
               <ListItemText
                 className='cs278-map-hallText'
                 primary={hall.name}
+                key={hall.name + "-text"}
               />
             </ListItem>
           ))}

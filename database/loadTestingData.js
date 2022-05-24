@@ -1,7 +1,6 @@
 /* jshint node: true */
-
 require('dotenv').config()
-
+const bcrypt = require('bcrypt');
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -24,7 +23,6 @@ const testUsers = [
         major: "CS probably",
         isDemoUser: true,
         emailPrefix: "alexis",
-        password: "test",
     },
     {
         first_name: "Nina",
@@ -36,7 +34,6 @@ const testUsers = [
         major: "doggo",
         isDemoUser: true,
         emailPrefix: "pupper",
-        password: "test",
     },
     {
         first_name: "Steven",
@@ -47,7 +44,6 @@ const testUsers = [
         major: "CS-HCI",
         isDemoUser: true,
         emailPrefix: "steven",
-        password: "test",
     },
     {
         first_name: "Leilenah",
@@ -58,7 +54,6 @@ const testUsers = [
         major: "CS (MS)",
         isDemoUser: true,
         emailPrefix: "leilenah",
-        password: "test",
     },
     {
         first_name: "Hillary",
@@ -69,7 +64,6 @@ const testUsers = [
         major: "PD",
         isDemoUser: true,
         emailPrefix: "hillary",
-        password: "test",
     },
     {
         first_name: "Ellie",
@@ -80,7 +74,6 @@ const testUsers = [
         major: "CS",
         isDemoUser: true,
         emailPrefix: "ellie",
-        password: "test",
     },
 ];
 
@@ -129,13 +122,18 @@ const meals = [
     },
 ];
 
+
+var passwordHash;
 // Remove anything that exists in the collections
 var removePromises = [
     User.deleteMany({}),
     DiningHall.deleteMany({}),
     Meal.deleteMany({}),
-    Pairing.deleteMany({})
+    Pairing.deleteMany({}),
+    // all demo users have the password "test"
+    bcrypt.hash("test", 10).then((val) => passwordHash = val)
 ];
+
 
 Promise.all(removePromises).then(function () {
     // Load the users into the database
@@ -150,7 +148,7 @@ Promise.all(removePromises).then(function () {
             major: user.major,
             isDemoUser: user.isDemoUser,
             emailPrefix: user.emailPrefix,
-            password: user.password,
+            password: passwordHash,
         }).then(function (userObj) {
             userObj.save();
             console.log('Adding user:', userObj.first_name + "\n" + userObj);

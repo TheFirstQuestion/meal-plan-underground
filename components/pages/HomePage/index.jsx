@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { 
-    Typography, 
-    TextField, 
-    Button, 
+import {
+    Typography,
+    TextField,
+    Button,
     Modal,
     Select,
     MenuItem,
@@ -32,7 +32,7 @@ export default function HomePage({...props}) {
             console.log(err);
         });
     }
-    
+
     const login = useCallback(() => {
         axios.post("/login", {
             email: email,
@@ -50,7 +50,7 @@ export default function HomePage({...props}) {
 
     const register = useCallback(() => {
         // TODO: check if email exists already or make email unique field
-        
+
         if (!email || !password || !firstName || !lastName || !isDonor || !major) {
             setHasRegisterError(true);
             return;
@@ -61,7 +61,7 @@ export default function HomePage({...props}) {
         if (!emailIsValid) {
             setHasInvalidEmail(true);
             return;
-        } 
+        }
         setHasInvalidEmail(false);
 
         axios.post("/register", {
@@ -81,11 +81,11 @@ export default function HomePage({...props}) {
             setHasRegisterError(true);
         });
     }, [
-        email, 
-        password, 
-        firstName, 
-        lastName, 
-        isDonor, 
+        email,
+        password,
+        firstName,
+        lastName,
+        isDonor,
         major
     ]);
 
@@ -128,25 +128,25 @@ export default function HomePage({...props}) {
                     <img src="../../../static/images/logo.png" />
                 </div>
                 <div className="login-container">
-                    <TextField 
+                    <TextField
                         className="login-input email-input"
                         id="outlined-basic"
                         label="Email"
                         variant="outlined"
                         onChange={handleEmailChange}
-                        required 
+                        required
                         style={{
                             marginBottom: '20px'
                         }}
                     />
-                    <TextField 
+                    <TextField
                         className="login-input password-input"
                         id="outlined-basic"
                         label="Password"
                         variant="outlined"
                         type="password"
                         onChange={handlePasswordChange}
-                        required 
+                        required
                         style={{
                             marginBottom: '20px'
                         }}
@@ -163,8 +163,8 @@ export default function HomePage({...props}) {
                         Login
                     </Button>
                     {hasLoginError && (
-                        <Typography 
-                            variant="body1" 
+                        <Typography
+                            variant="body1"
                             className="login-error-body"
                             style={{
                                 marginBottom: '5px',
@@ -178,7 +178,7 @@ export default function HomePage({...props}) {
                     </Typography>
                 </div>
             </div>
-            
+
             <Modal
                 open={showRegisterModal}
                 onClose={toggleRegisterModal}
@@ -191,40 +191,40 @@ export default function HomePage({...props}) {
                 }}
             >
                 <div className="register-container">
-                    <TextField 
+                    <TextField
                         className="register-input fname-input"
                         id="outlined-basic"
                         label="First Name"
                         variant="outlined"
                         onChange={handleFirstNameChange}
-                        required 
+                        required
                         style={{
                             marginBottom: '20px'
                         }}
                     />
-                    <TextField 
+                    <TextField
                         className="register-input lname-input"
                         id="outlined-basic"
                         label="Last Name"
                         variant="outlined"
                         onChange={handleLastNameChange}
-                        required 
+                        required
                         style={{
                             marginBottom: '20px'
                         }}
                     />
-                    <TextField 
+                    <TextField
                         className="register-input major-input"
                         id="outlined-basic"
                         label="Major"
                         variant="outlined"
                         onChange={handleMajorChange}
-                        required 
+                        required
                         style={{
                             marginBottom: '20px'
                         }}
                     />
-                    <TextField 
+                    <TextField
                         className="register-input email-input"
                         id="outlined-basic"
                         label="Email"
@@ -232,26 +232,26 @@ export default function HomePage({...props}) {
                         helperText={hasInvalidEmail ? "Email format is invalid." : ""}
                         variant="outlined"
                         onChange={handleEmailChange}
-                        required 
+                        required
                         style={{
                             marginBottom: '20px'
                         }}
                     />
-                    <TextField 
+                    <TextField
                         className="register-input password-input"
                         id="outlined-basic"
                         label="Password"
                         variant="outlined"
                         type="password"
                         onChange={handlePasswordChange}
-                        required 
+                        required
                         style={{
                             marginBottom: '20px'
                         }}
                     />
                     <InputLabel style={{ marginBottom: '10px' }}>
                         Do you plan to give meal swipes or recieve meal swipes?
-                    </InputLabel>        
+                    </InputLabel>
                     <Select
                         value={isDonor}
                         onChange={handleIsDonorChange}
@@ -272,8 +272,8 @@ export default function HomePage({...props}) {
                         Register
                     </Button>
                     {hasRegisterError && (
-                        <Typography 
-                            variant="body1" 
+                        <Typography
+                            variant="body1"
                             className="register-error-body"
                             style={{
                                 marginTop: '5px',
