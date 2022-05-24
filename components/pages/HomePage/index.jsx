@@ -49,6 +49,8 @@ export default function HomePage({...props}) {
     }, [email, password]);
 
     const register = useCallback(() => {
+        // TODO: check if email exists already
+
         if (!email || !password || !firstName || !lastName || !isDonor || !major) {
             setHasRegisterError(true);
             return;
