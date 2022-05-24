@@ -37,7 +37,7 @@ export default function PairingsPage({...props}) {
     }, []);
 
     const handleListItemClick = (value) => {
-        window.location = `mailto:yourmail@gmail.com?subject=previous meal plan underground match!`
+        window.location = `mailto:${value.email}$@stanford.edu?subject=previous meal plan underground match!`
     };
     const classes = useStyles();
 

@@ -227,7 +227,7 @@ export default function HomePage({...props}) {
                     <TextField
                         className="register-input email-input"
                         id="outlined-basic"
-                        label="Email"
+                        label="Stanford Email"
                         error={hasInvalidEmail}
                         helperText={hasInvalidEmail ? "Email format is invalid." : ""}
                         variant="outlined"

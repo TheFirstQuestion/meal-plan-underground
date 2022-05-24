@@ -41,7 +41,7 @@ function IcebreakerPage({...props}) {
     }, []);
 
     const handleListItemClick = (value) => {
-        window.location = `mailto:${props.matched?.email}?subject=meal plan underground match!&body=${value}`
+        window.location = `mailto:${props.matched?.email}@stanford.edu?subject=meal plan underground match!&body=${value}`
     };
 
     const classes = useStyles();
