@@ -21,6 +21,8 @@ const testUsers = [
         biography: "the best CS 278 TA",
         major: "CS probably",
         isDemoUser: true,
+        email: "alexis_demo@stanford.edu",
+        dining_hall_id: "628d374891e746b6eb5cdb3f",
     },
     {
         first_name: "Nina",
@@ -31,6 +33,8 @@ const testUsers = [
         biography: "the love of my life",
         major: "doggo",
         isDemoUser: true,
+        email: "nina_demo@stanford.edu",
+        dining_hall_id: "628d374891e746b6eb5cdb39",
     },
     {
         first_name: "Steven",
@@ -40,6 +44,8 @@ const testUsers = [
         biography: "dope",
         major: "CS-HCI",
         isDemoUser: true,
+        email: "steven_demo@stanford.edu",
+        dining_hall_id: "628d374891e746b6eb5cdb38",
     },
     {
         first_name: "Leilenah",
@@ -49,6 +55,8 @@ const testUsers = [
         biography: "dope",
         major: "CS (MS)",
         isDemoUser: true,
+        email: "leilenah_demo@stanford.edu",
+        dining_hall_id: "628d352e774ceb335c41fc7",
     },
     {
         first_name: "Hillary",
@@ -58,6 +66,8 @@ const testUsers = [
         biography: "dope",
         major: "PD",
         isDemoUser: true,
+        email: "hillary_demo@stanford.edu",
+        dining_hall_id: "628d352e774ceb335c41fc7",
     },
     {
         first_name: "Ellie",
@@ -67,6 +77,8 @@ const testUsers = [
         biography: "dope",
         major: "CS",
         isDemoUser: true,
+        email: "ellie_demo@stanford.edu",
+        dining_hall_id: "628d352e774ceb335c41fc75",
     },
 ];
 
@@ -115,6 +127,8 @@ Promise.all(removePromises).then(function () {
             biography: user.biography,
             major: user.major,
             isDemoUser: user.isDemoUser,
+            email: user.email,
+            dining_hall_id: user.dining_hall_id,
         }).then(function (userObj) {
             userObj.save();
             console.log('Adding user:', userObj.first_name + "\n" + userObj);

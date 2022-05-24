@@ -74,15 +74,6 @@ _This table will be hardcoded for now._
 | `meal_id` | string (primary key) | uuid |
 | `meal_category` | string | e.g. breakfast, lunch, dinner |
 
-### `IceBreaker` Table
-_This table will be hardcoded for now._
-
-| Column Name | Type | Meaning |
-| - | - | - |
-| `ice_breaker_id` | string (primary key) | uuid |
-| `ice_breaker` | string | the ice breaker question |
-
-
 ### `DiningHall` Table
 _This table is hardcoded and never edited. See dining hall reference below for the current dining halls in the db._
 

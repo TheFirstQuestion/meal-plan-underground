@@ -41,7 +41,7 @@ function IcebreakerPage({...props}) {
     }, []);
 
     const handleListItemClick = (value) => {
-        window.location = `mailto:yourmail@gmail.com?subject=meal plan underground match!&body=${value}`
+        window.location = `mailto:${props.matched?.email}?subject=meal plan underground match!&body=${value}`
     };
 
     const classes = useStyles();
@@ -54,7 +54,7 @@ function IcebreakerPage({...props}) {
                         <Avatar sx={{ width: '6rem', height: '6rem',}} className={classes.avatar}>
                             <PersonIcon className='cs278-icebreaker-icon'/>
                         </Avatar>
-                        <Typography>{props.matched.first_name}</Typography>
+                        <Typography>{props.matched?.first_name}</Typography>
                     </div>
                     <div className='cs278-icebreaker-avatarDiv'>
                         <Avatar className={classes.restaurant} style={{ border: '1px solid black' }}>
