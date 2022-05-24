@@ -49,8 +49,8 @@ export default function HomePage({...props}) {
     }, [email, password]);
 
     const register = useCallback(() => {
-        // TODO: check if email exists already
-
+        // TODO: check if email exists already or make email unique field
+        
         if (!email || !password || !firstName || !lastName || !isDonor || !major) {
             setHasRegisterError(true);
             return;
@@ -144,6 +144,7 @@ export default function HomePage({...props}) {
                         id="outlined-basic"
                         label="Password"
                         variant="outlined"
+                        type="password"
                         onChange={handlePasswordChange}
                         required 
                         style={{
@@ -241,6 +242,7 @@ export default function HomePage({...props}) {
                         id="outlined-basic"
                         label="Password"
                         variant="outlined"
+                        type="password"
                         onChange={handlePasswordChange}
                         required 
                         style={{
