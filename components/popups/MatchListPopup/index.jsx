@@ -15,6 +15,13 @@ import ShuffleIcon from '@material-ui/icons/Shuffle';
 import Typography from '@material-ui/core/Typography';
 import { grey } from '@material-ui/core/colors';
 import { HashRouter, Route } from "react-router-dom";
+import IcebreakerPage from '../../pages/IcebreakerPage';
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 const useStyles = makeStyles({
     avatar: {
@@ -22,31 +29,6 @@ const useStyles = makeStyles({
       color: grey[800],
     },
 });
-
-// TODO: remove this helper when demo phase is over
-function shuffle(array) {
-  let currentIndex = array.length,  randomIndex;
-
-  // While there remain elements to shuffle.
-  while (currentIndex != 0) {
-
-    // Pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
-
-  return array;
-}
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 function MatchListPopup({...props}) {
     const classes = useStyles();
@@ -62,18 +44,10 @@ function MatchListPopup({...props}) {
     };
 
     const dh = props.DINING_HALLS.filter(h => h.name === hall.name)[0];
+    const people = dh.people;
 
-    // TODO: remove the shuffling and randomness when demo phase is over
-    const people = () => {
-      const shuffledPeople = shuffle(dh.people);
-      const randomPeople = [];
-      for(let i = 0; i < num; i++) {
-        randomPeople.push(shuffledPeople[i]);
-      }
-      return randomPeople;
-    };
-
-    const randomPerson = people()[0];
+    // TODO: only allow surprise match if there is at least two people in the dining hall
+    const randomPerson = people ? people[getRandomInt(0, people.length - 1)] : {};
 
     return (
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
@@ -81,6 +55,7 @@ function MatchListPopup({...props}) {
         <List className='cs278-map-list'>
           { people() ?
               people().map((person) => (
+
             <ListItem key={person._id}>
                 <ListItemAvatar>
                     <Avatar className={classes.avatar}>
@@ -100,18 +75,30 @@ function MatchListPopup({...props}) {
             </ListItem>
         )) : <></>
       }
-
           <ListItem>
             <ListItemAvatar>
               <Avatar className={classes.avatar}>
                 <ShuffleIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary="surprise me!" />
+            <ListItemText primary="Surprise Me!" />
             <HashRouter>
-                <Button onClick={() => handleListItemClick(randomPerson)} href={'#/icebreaker/:' + randomPerson._id} variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} >match</Button>
-                <Route path={"/icebreaker/:person" + randomPerson._id} render={props => <IcebreakerPage {...props}/>}/>
-            </HashRouter>
+                <Button 
+                  onClick={() => handleListItemClick(randomPerson)} 
+                  href={'#/icebreaker/:' + randomPerson._id} 
+                  variant="contained" 
+                  style={{
+                    backgroundColor: '#508347', 
+                    color: 'white', 
+                    textTransform: 'none'
+                  }}>
+                    match
+                  </Button>
+                <Route 
+                  path={"/icebreaker/:person" + randomPerson._id} 
+                  render={props => <IcebreakerPage {...props}/>}
+                />
+            </HashRouter>            
           </ListItem>
         </List>
       </Dialog>

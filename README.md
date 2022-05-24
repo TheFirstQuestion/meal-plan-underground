@@ -41,13 +41,16 @@ _Data is initially pulled from Stanford's system, but the user can update certai
 
 | Column Name | Type | Meaning | Notes |
 | - | - | - | - |
-| `user_id` | string (primary key) | uuid | |
 | `dining_hall_id` | string (foreign key) | uuid - dining hall the user is currently at |
 | `photo_path` * | string (file path) | path to the user's profile photo | relative to `/static/images/profile-photos` |
 | `swipes_remaining` * | integer | number of swipes the user currently has | we calculate this, but user can manually update to correct incorrect guesses |
 | `isDonor` * | boolean | if the user is a donor (true) or recipient (false) _right now_ |  |
 | `major` | string | required field |  |
 | `biography` | string | short "about me" section |  |
+| `email` | string |  | |
+| `password` | string | encrypted | |
+| `first_name` | string |  | |
+| `last_name` | string |  | |
 
 
 ### `Pairing` Table
@@ -66,15 +69,6 @@ _This table will be hardcoded for now._
 | - | - | - |
 | `id` | string (primary key) | uuid |
 | `name` | string | e.g. breakfast, lunch, dinner |
-
-### `IceBreaker` Table
-_This table will be hardcoded for now._
-
-| Column Name | Type | Meaning |
-| - | - | - |
-| `ice_breaker_id` | string (primary key) | uuid |
-| `ice_breaker` | string | the ice breaker question |
-
 
 ### `DiningHall` Table
 _This table is hardcoded and never edited. See dining hall reference below for the current dining halls in the db._

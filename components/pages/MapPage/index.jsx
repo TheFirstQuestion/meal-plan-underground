@@ -4,15 +4,7 @@ import MatchListPopup from '../../popups/MatchListPopup';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-
 import './index.css';
-
-// TODO: remove this helper when demo phase is over
-const getRandomNum = (min = 1, max = 4) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-};
 
 function NumberCircles({num, small, isDonor}) {
     const color = isDonor ? 'green' : 'blue';
@@ -37,10 +29,6 @@ export default function MapPage({...props}) {
     const [hall, setHall] = useState(null);
     // TODO: get number of people from the db
     const [numPeople, setNumPeople] = useState(0);
-
-    // TODO: remove this when the demo phase is over
-    const [randNumPeople, setRandNumPeople] = useState({});
-
     const [matchOpen, setMatchOpen] = useState(false);
     const [selectedMatch, setSelectedMatch] = useState(null);
     const [hallOpen, setHallOpen] = useState(true);
@@ -59,40 +47,8 @@ export default function MapPage({...props}) {
 
     const handleMatchOpen = (newHall, newPeople) => {
         const dh = props.DINING_HALLS.filter(h => h.name === newHall)[0];
-        const dhName = dh.name;
-        console.log(dh);
-
-        // TODO: remove when demo phase is over
-        switch (dhName) {
-            case "EVGR":
-                setNumPeople(randNumPeople.evgr);
-                break;
-            case  "Ricker":
-                setNumPeople(randNumPeople.ricker);
-                break;
-            case "Lakeside":
-                setNumPeople(randNumPeople.lakeside);
-                break;
-            case "FloMo":
-                setNumPeople(randNumPeople.flomo);
-                break;
-            case "Branner":
-                setNumPeople(randNumPeople.branner);
-                break;
-            case "Casper":
-                setNumPeople(randNumPeople.casper);
-                break;
-            case "Arrillaga":
-                setNumPeople(randNumPeople.arrillaga);
-                break;
-            case "Stern":
-                setNumPeople(randNumPeople.stern);
-                break;
-            case "Wilbur":
-                setNumPeople(randNumPeople.wilbur);
-                break;
-        }
         setHall(dh);
+        setNumPeople(dh?.numPeople);
         setMatchOpen(true);
     }
 
@@ -129,22 +85,6 @@ export default function MapPage({...props}) {
         props.setContext("Dining Hall Map");
     }, []);
 
-    // TODO: remove random numbering when demo phase is over
-    useEffect(() => {
-        setRandNumPeople({
-            ricker: getRandomNum(),
-            lakeside: getRandomNum(),
-            flomo: getRandomNum(),
-            evgr: getRandomNum(),
-            branner: getRandomNum(),
-            casper: getRandomNum(),
-            arrillaga: getRandomNum(),
-            stern: getRandomNum(),
-            wilbur: getRandomNum(),
-        });
-    }, []);
-
-
     return (
         <div className='cs278-map-container'>
             <Button className='cs278-map-button' variant="outlined" onClick={handleHallOpen}>Check-In</Button>
@@ -158,62 +98,44 @@ export default function MapPage({...props}) {
                 <div className='cs278-map-leftDiv'>
                     <div className='cs278-map-ricker' onClick={() => handleMatchOpen('Ricker')}>
                         <Typography variant="h6">Ricker</Typography>
-                        {/* TODO: Remove random numbering when we have real data */}
-                        <NumberCircles num={randNumPeople.ricker} small={true} isDonor={isDonor}/>
-                        {/* <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Ricker")[0].numPeople} small={true}/> */}
+                        <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Ricker")[0]?.numPeople} small={true} isDonor={isDonor}/>
                     </div>
                     <div className='cs278-map-lakeside' onClick={() => handleMatchOpen('Lakeside')}>
                         <Typography variant="h6">Lakeside</Typography>
-                        {/* TODO: Remove random numbering when we have real data */}
-                        <NumberCircles num={randNumPeople.lakeside} small={false} isDonor={isDonor}/>
-                        {/* <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Lakeside")[0].numPeople} small={false}/> */}
+                        <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Lakeside")[0]?.numPeople} small={false} isDonor={isDonor}/>
                     </div>
                     <div className='cs278-map-flomo' onClick={() => handleMatchOpen('FloMo')}>
                         <Typography variant="h6">FloMo</Typography>
-                        {/* TODO: Remove random numbering when we have real data */}
-                        <NumberCircles num={randNumPeople.flomo} small={false} isDonor={isDonor}/>
-                        {/* <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "FloMo")[0].numPeople} small={false}/> */}
+                        <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "FloMo")[0]?.numPeople} small={false} isDonor={isDonor}/>
                     </div>
                 </div>
                 <div className='cs278-map-rightDiv'>
                     <div className='cs278-map-evgr' onClick={() => handleMatchOpen('EVGR')}>
                         <Typography variant="h6">EVGR</Typography>
-                        {/* TODO: Remove random numbering when we have real data */}
-                        <NumberCircles num={randNumPeople.evgr} small={true} isDonor={isDonor}/>
-                        {/* <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "EVGR")[0].numPeople} small={true}/> */}
+                        <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "EVGR")[0]?.numPeople} small={true} isDonor={isDonor}/>
                     </div>
                     <div className='cs278-map-brannerCasper'>
                         <div className='cs278-map-brannerStern' onClick={() => handleMatchOpen('Branner')}>
                             <Typography variant="h6">Branner</Typography>
-                            {/* TODO: Remove random numbering when we have real data */}
-                            <NumberCircles num={randNumPeople.branner} small={false} isDonor={isDonor}/>
-                            {/* <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Branner")[0].numPeople} small={false}/> */}
+                            <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Branner")[0]?.numPeople} small={false} isDonor={isDonor}/>
                         </div>
                         <div className='cs278-map-casperWilbur' onClick={() => handleMatchOpen('Casper')}>
                             <Typography variant="h6">Casper</Typography>
-                            {/* TODO: Remove random numbering when we have real data */}
-                            <NumberCircles num={randNumPeople.casper} small={false} isDonor={isDonor}/>
-                            {/* <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Casper")[0].numPeople} small={false}/> */}
+                            <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Casper")[0]?.numPeople} small={false} isDonor={isDonor}/>
                         </div>
                     </div>
                     <div className='cs278-map-arrillaga' onClick={() => handleMatchOpen('Arrillaga')}>
                         <Typography variant="h6">Arrillaga</Typography>
-                        {/* TODO: Remove random numbering when we have real data */}
-                        <NumberCircles num={randNumPeople.arrillaga} small={false} isDonor={isDonor}/>
-                        {/* <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Arrillaga")[0].numPeople} small={false}/> */}
+                        <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Arrillaga")[0]?.numPeople} small={false} isDonor={isDonor}/>
                     </div>
                     <div className='cs278-map-sternWilbur'>
                         <div className='cs278-map-brannerStern' onClick={() => handleMatchOpen('Stern')}>
                             <Typography variant="h6">Stern</Typography>
-                            {/* TODO: Remove random numbering when we have real data */}
-                            <NumberCircles num={randNumPeople.stern} small={false} isDonor={isDonor}/>
-                            {/* <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Stern")[0].numPeople} small={false}/> */}
+                            <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Stern")[0]?.numPeople} small={false} isDonor={isDonor}/>
                         </div>
                         <div className='cs278-map-casperWilbur' onClick={() => handleMatchOpen('Wilbur')}>
                             <Typography variant="h6">Wilbur</Typography>
-                            {/* TODO: Remove random numbering when we have real data */}
-                            <NumberCircles num={randNumPeople.wilbur} small={false} isDonor={isDonor}/>
-                            {/* <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Wilbur")[0].numPeople} small={false}/> */}
+                            <NumberCircles num={props.DINING_HALLS.filter(h => h.name === "Wilbur")[0]?.numPeople} small={false} isDonor={isDonor}/>
                         </div>
                     </div>
                     {

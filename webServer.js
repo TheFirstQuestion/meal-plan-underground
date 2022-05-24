@@ -15,6 +15,7 @@ app.use(session({secret: 'secretKey', resave: false, saveUninitialized: false}))
 app.use(bodyParser.json());
 const fs = require("fs");
 const processFormBody = multer({storage: multer.memoryStorage()}).single('uploadedphoto');
+const bcrypt = require('bcrypt');
 
 // Load the Mongoose schemas
 var {User} = require('./database/schemas/user.js');
@@ -29,6 +30,63 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 app.use(express.static(__dirname));
 
 // ###############################################################################################
+
+app.post('/register', function (request, response) {
+    const newUser = request.body;
+    bcrypt.hash(newUser.password, 10).then(function(hashedPassword) {
+        newUser.password = hashedPassword;
+        User.create(newUser, function (err, data) {
+            if (err || data === null) {
+                // Query returned an error.
+                console.error('/user error: ', err);
+                response.status(400).send(JSON.stringify(err));
+                return;
+            }
+            if (data.length === 0) {
+                // Query didn't return an error but couldn't create the User object - this is also an internal error.
+                response.status(400).send("Couldn't create user :/");
+                return;
+            }
+            data.save();
+            response.end(JSON.stringify(data));
+        });
+    }).catch(function(err) {
+        console.error(err);
+    });
+});
+
+app.post('/login', function (request, response) {
+    const email = request.body.email;
+    const password = request.body.password; 
+    
+    User.findOne({email: email}).select("_id first_name last_name dining_hall_id isDonor email password").exec(function (err, user) {
+        bcrypt.compare(password, user.password).then(function(result) {
+            if (result == false) {
+                // Password was incorrect.
+                console.log("Incorrect Password");
+                response.status(400).send('Incorrect Password');
+                return;
+            }
+            if (err || user === null) {
+                // Query returned an error.
+                console.error('/login error:', err);
+                response.status(400).send(JSON.stringify(err));
+                return;
+            }
+            if (user.length === 0) {
+                // Query didn't return an error but didn't find the User object - this is also an internal error.
+                console.log("Couldn't find user");
+                response.status(400).send('Missing User');
+                return;
+            }
+            request.session.LOGGED_IN_USER = user;
+            response.end(JSON.stringify({
+                _id: user.id,
+                isDonor: user.isDonor,
+            }));
+        });
+    });
+});
 
 // Logs you in to the default recipient account (Alexis)
 app.get('/login/recipient', function (request, response) {
@@ -138,7 +196,7 @@ app.get('/list/dining_halls', function (request, response) {
 // List all the users at a dining hall
 app.get('/list/users/:dining_hall_id', function (request, response) {
     const dining_hall_id = request.params.dining_hall_id;
-
+    
     User.find({dining_hall_id: dining_hall_id, isDonor: !request.session.LOGGED_IN_USER.isDonor}).exec(function (err, data) {
         if (err) {
             // Query returned an error

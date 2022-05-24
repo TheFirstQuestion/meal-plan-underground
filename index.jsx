@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './styles/main.css';
 
-import AuthRedirect from './components/auth/AuthRedirect';
 import GlobalHeader from './components/navigation/GlobalHeader';
 import GlobalFooter from './components/navigation/GlobalFooter';
 import IcebreakerPage from './components/pages/IcebreakerPage';
@@ -11,6 +10,7 @@ import MapPage from './components/pages/MapPage';
 import PairingsPage from './components/pages/PairingsPage';
 import ProfileEditPage from './components/pages/ProfileEditPage';
 import ProfilePage from './components/pages/ProfilePage';
+import HomePage from './components/pages/HomePage';
 
 class Index extends React.Component {
   constructor(props) {
@@ -124,7 +124,7 @@ class Index extends React.Component {
                 ):
                     <Route
                         path="/"
-                        render={props => <AuthRedirect
+                        render={props => <HomePage
                             {...props}
                             setContext={this.setContext}
                             setUser={this.setUser}
