@@ -7,8 +7,10 @@ mongoose.Promise = require('bluebird');
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Load the Mongoose schemas
-var User = require('./schemas/user.js');
-var DiningHall = require('./schemas/dining-hall.js');
+var {User, userSchema} = require('./schemas/user.js');
+var {DiningHall, diningHallSchema} = require('./schemas/dining-hall.js');
+var {Meal, mealSchema} = require('./schemas/meal.js');
+var Pairing = require('./schemas/pairing.js');
 
 // Hardcoded testing data
 const testUsers = [
@@ -21,6 +23,8 @@ const testUsers = [
         biography: "the best CS 278 TA",
         major: "CS probably",
         isDemoUser: true,
+        emailPrefix: "alexis",
+        password: "test",
     },
     {
         first_name: "Nina",
@@ -31,6 +35,8 @@ const testUsers = [
         biography: "the love of my life",
         major: "doggo",
         isDemoUser: true,
+        emailPrefix: "pupper",
+        password: "test",
     },
     {
         first_name: "Steven",
@@ -40,6 +46,8 @@ const testUsers = [
         biography: "dope",
         major: "CS-HCI",
         isDemoUser: true,
+        emailPrefix: "steven",
+        password: "test",
     },
     {
         first_name: "Leilenah",
@@ -49,6 +57,8 @@ const testUsers = [
         biography: "dope",
         major: "CS (MS)",
         isDemoUser: true,
+        emailPrefix: "leilenah",
+        password: "test",
     },
     {
         first_name: "Hillary",
@@ -58,6 +68,8 @@ const testUsers = [
         biography: "dope",
         major: "PD",
         isDemoUser: true,
+        emailPrefix: "hillary",
+        password: "test",
     },
     {
         first_name: "Ellie",
@@ -67,6 +79,8 @@ const testUsers = [
         biography: "dope",
         major: "CS",
         isDemoUser: true,
+        emailPrefix: "ellie",
+        password: "test",
     },
 ];
 
@@ -100,8 +114,28 @@ const diningHalls = [
     },
 ];
 
+const meals = [
+    {
+        name: "Breakfast",
+    },
+    {
+        name: "Lunch",
+    },
+    {
+        name: "Dinner",
+    },
+    {
+        name: "Brunch",
+    },
+];
+
 // Remove anything that exists in the collections
-var removePromises = [User.deleteMany({}), DiningHall.deleteMany({})];
+var removePromises = [
+    User.deleteMany({}),
+    DiningHall.deleteMany({}),
+    Meal.deleteMany({}),
+    Pairing.deleteMany({})
+];
 
 Promise.all(removePromises).then(function () {
     // Load the users into the database
@@ -115,6 +149,8 @@ Promise.all(removePromises).then(function () {
             biography: user.biography,
             major: user.major,
             isDemoUser: user.isDemoUser,
+            emailPrefix: user.emailPrefix,
+            password: user.password,
         }).then(function (userObj) {
             userObj.save();
             console.log('Adding user:', userObj.first_name + "\n" + userObj);
@@ -123,25 +159,61 @@ Promise.all(removePromises).then(function () {
         });
     });
 
-    var allPromises = Promise.all(userPromises).then(function () {
+    Promise.all(userPromises).then(function () {
+        console.log();
+        console.log();
         // Load the dining halls
         var diningHallPromises = diningHalls.map(function (hall) {
             return DiningHall.create({
                 name: hall.name,
             }).then(function (obj) {
                 obj.save();
-                console.log('Adding dining hall:', obj.name +' with ID ',
-                    obj._id);
+                console.log('Adding dining hall: ' + obj.name);
             }).catch(function (err) {
                 console.error('Error creating dining hall', err);
             });
         });
-    });
 
-    // Close the connection
-    // return Promise.all(allPromises).then(function () {
-    //     mongoose.disconnect();
-    // });
+        Promise.all(diningHallPromises).then(function () {
+            console.log();
+            console.log();
+            // Load the meals
+            var mealPromises = meals.map(function (meal) {
+                return Meal.create({
+                    name: meal.name,
+                }).then(function (obj) {
+                    obj.save();
+                    console.log('Adding meal: ' + obj.name);
+                }).catch(function (err) {
+                    console.error('Error creating meal', err);
+                });
+            });
+
+            Promise.all(mealPromises).then(function () {
+                console.log();
+                console.log();
+                // Create an Alexis / Nina pairing for dinner
+                User.findOne({first_name: "Alexis", isDemoUser: true}).exec(function (err, alexis) {
+                    User.findOne({first_name: "Nina", isDemoUser: true}).exec(function (err, nina) {
+                        Meal.findOne({name: "Dinner"}).exec(function (err, dinner) {
+                            return Pairing.create({
+                                donor: nina,
+                                recipient: alexis,
+                                meal: dinner,
+                                swipe_completed: true,
+                                date_time: new Date(),
+                            }).then(function (obj) {
+                                obj.save();
+                                console.log('Created pairing!\n' + obj);
+                            }).catch(function (err) {
+                                console.error('Error creating pairing', err);
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
 }).catch(function(err) {
     console.error('Error loading testing data', err);
 });

@@ -60,6 +60,7 @@ export default function MapPage({...props}) {
     const handleMatchOpen = (newHall, newPeople) => {
         const dh = props.DINING_HALLS.filter(h => h.name === newHall)[0];
         const dhName = dh.name;
+        console.log(dh);
 
         // TODO: remove when demo phase is over
         switch (dhName) {
