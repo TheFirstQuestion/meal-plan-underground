@@ -33,7 +33,7 @@ const testUsers = [
         biography: "the love of my life",
         major: "doggo",
         isDemoUser: true,
-        emailPrefix: "pupper",
+        emailPrefix: "nina",
     },
     {
         first_name: "Steven",
@@ -136,6 +136,7 @@ var removePromises = [
 
 
 Promise.all(removePromises).then(function () {
+    console.log(passwordHash);
     // Load the users into the database
     var userPromises = testUsers.map(function (user) {
         return User.create({

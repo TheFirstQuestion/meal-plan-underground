@@ -59,24 +59,24 @@ app.post('/login', function (request, response) {
     const emailPrefix = request.body.emailPrefix;
     const password = request.body.password;
 
-    User.findOne({emailPrefix}).exec(function (err, user) {
+    User.findOne({emailPrefix: emailPrefix}).exec(function (err, user) {
+        if (err || user === null) {
+            // Query returned an error.
+            console.error('/login error:', err);
+            response.status(400).send(JSON.stringify(err));
+            return;
+        }
+        if (user.length === 0) {
+            // Query didn't return an error but didn't find the User object - this is also an internal error.
+            console.log("Couldn't find user");
+            response.status(400).send('Missing User');
+            return;
+        }
         bcrypt.compare(password, user.password).then(function(result) {
             if (result == false) {
                 // Password was incorrect.
                 console.log("Incorrect Password");
                 response.status(400).send('Incorrect Password');
-                return;
-            }
-            if (err || user === null) {
-                // Query returned an error.
-                console.error('/login error:', err);
-                response.status(400).send(JSON.stringify(err));
-                return;
-            }
-            if (user.length === 0) {
-                // Query didn't return an error but didn't find the User object - this is also an internal error.
-                console.log("Couldn't find user");
-                response.status(400).send('Missing User');
                 return;
             }
             request.session.LOGGED_IN_USER = user;

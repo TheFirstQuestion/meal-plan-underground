@@ -14,7 +14,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import ShuffleIcon from '@material-ui/icons/Shuffle';
 import Typography from '@material-ui/core/Typography';
 import { grey } from '@material-ui/core/colors';
-import { HashRouter, Route } from "react-router-dom";
+import { HashRouter, Route, Link } from "react-router-dom";
 import IcebreakerPage from '../../pages/IcebreakerPage';
 
 function getRandomInt(min, max) {
@@ -55,25 +55,42 @@ function MatchListPopup({...props}) {
         <List className='cs278-map-list'>
           { people ?
               people.map((person) => (
+                <ListItem
+                    user={person}
+                >
+                    <Route
+                      path="/profile"
+                      render={props => <ProfilePage
+                          {...props}
+                          setContext={this.setContext}
+                          user={person}
+                      />}
+                    />
 
-            <ListItem key={person._id}>
-                <ListItemAvatar>
-                    <Avatar className={classes.avatar}>
-                        <PersonIcon />
-                    </Avatar>
-                </ListItemAvatar>
-                <div className='cs278-map-userInfo'>
-                    <Typography style={{fontWeight:'bold'}} variant='body1'>{person.first_name}</Typography>
-                    <Typography variant='body1'>{person.major}</Typography>
-                    <Typography variant='body1'>{person.biography}</Typography>
-                </div>
-                <HashRouter>
-                    <Button onClick={() => handleListItemClick(person)} href={'#/icebreaker'} variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} >match</Button>
-                    <Route path={"/icebreaker"} render={props => <IcebreakerPage {...props}/> }/>
+                    <ListItemAvatar>
+                        <Avatar
+                            className={classes.avatar}
+                            alt={person.first_name + " " + person.last_name}
+                            src={"../../static/images/profile-photos/" + (props.user.photo_path ? props.user.photo_path : "default.png")}
+                        />
+                    </ListItemAvatar>
+                    <div className='cs278-map-userInfo'>
+                        <Typography style={{fontWeight:'bold'}} variant='body1'>{person.first_name}</Typography>
+                        <Typography variant='body1'>{person.major}</Typography>
+                        <Typography variant='body1'>{person.biography}</Typography>
+                    </div>
+                        <Button
+                            onClick={() => handleListItemClick(person)}
+                            href={'#/icebreaker'}
+                            variant="contained"
+                            style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}}
+                        >match</Button>
+                        <Route path={"/icebreaker"} render={props => <IcebreakerPage {...props}/> }/>
+
+                    {/* <Button component={RouterLink} to={"/icebreaker/:" + person} variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} onClick={() => handleListItemClick(person)}>match</Button> */}
+                </ListItem>
                 </HashRouter>
-                {/* <Button component={RouterLink} to={"/icebreaker/:" + person} variant="contained" style={{backgroundColor: '#508347', color: 'white', textTransform: 'none'}} onClick={() => handleListItemClick(person)}>match</Button> */}
-            </ListItem>
-        )) : <></>
+            )) : <></>
       }
           <ListItem>
             <ListItemAvatar>
