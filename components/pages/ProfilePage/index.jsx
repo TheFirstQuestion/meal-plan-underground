@@ -23,6 +23,8 @@ function ListItemLink(props) {
 
 export default function ProfilePage({...props}) {
     const classes = useStyles();
+    const photoPath = props.user.photo_path ? props.user.photo_path : "default.png";
+
     useEffect(() => {
         props.setContext("Profile");
     }, []);
@@ -33,7 +35,7 @@ export default function ProfilePage({...props}) {
                 <Avatar
                     className={classes.avatar}
                     alt={props.user.first_name + " " + props.user.last_name}
-                    src={"../../static/images/profile-photos/" + props.user.photo_path}
+                    src={"../../static/images/profile-photos/" + photoPath}
                 />
                 <div className="nameHeader">
                     <Typography variant="h1">{props.user.first_name}</Typography>
