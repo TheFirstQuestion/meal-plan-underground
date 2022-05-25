@@ -1,13 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {
-    Typography,
-    TextField,
-    Button,
-    Modal,
-    Select,
-    MenuItem,
-    InputLabel,
-} from '@material-ui/core';
+import { Typography, TextField, Button, Modal, Select, MenuItem, InputLabel, } from '@material-ui/core';
 import './index.css';
 import axios from 'axios';
 
@@ -50,7 +42,6 @@ export default function HomePage({...props}) {
 
     const register = useCallback(() => {
         // TODO: check if email exists already or make email unique field
-
         if (!email || !password || !firstName || !lastName || !isDonor || !major) {
             setHasRegisterError(true);
             return;

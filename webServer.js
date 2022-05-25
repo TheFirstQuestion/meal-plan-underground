@@ -59,7 +59,7 @@ app.post('/login', function (request, response) {
     const email = request.body.email;
     const password = request.body.password;
 
-    User.findOne({email: email}).exec(function (err, user) {
+    User.findOne({emailPrefix: email}).exec(function (err, user) {
         bcrypt.compare(password, user.password).then(function(result) {
             if (result == false) {
                 // Password was incorrect.
@@ -80,16 +80,13 @@ app.post('/login', function (request, response) {
                 return;
             }
             request.session.LOGGED_IN_USER = user;
-            response.end(JSON.stringify({
-                _id: user.id,
-                isDonor: user.isDonor,
-            }));
+            response.end(JSON.stringify(user));
         });
     });
 });
 
 // Logs you in to the default recipient account (Alexis)
-app.get('/login/recipient', function (request, response) {
+/*app.get('/login/recipient', function (request, response) {
     User.findOne({first_name: "Alexis", isDemoUser: true}).exec(function (err, user) {
         if (err || user === null) {
             // Query returned an error.
@@ -131,6 +128,7 @@ app.get('/login/donor', function (request, response) {
         response.end(JSON.stringify(user));
     });
 });
+*/
 
 // Sets the current user's dining hall
 app.post('/set/dining_hall', function (request, response) {
@@ -195,6 +193,9 @@ app.get('/list/dining_halls', function (request, response) {
 
 // List all the users at a dining hall
 app.get('/list/users/:dining_hall_id', function (request, response) {
+    if (!request.session.LOGGED_IN_USER) {
+        return;
+    }
     const dining_hall_id = request.params.dining_hall_id;
 
     User.find({dining_hall_id: dining_hall_id, isDonor: !request.session.LOGGED_IN_USER.isDonor}).exec(function (err, data) {
@@ -242,14 +243,7 @@ app.get('/list/pairings', function (request, response) {
             response.status(400).send(JSON.stringify(err));
             return;
         }
-        // console.log(data);
-        if (data.length === 0) {
-            response.status(200).send('No Pairings');
-            return;
-        } else {
-            // We got the data - return them in JSON format
-            response.end(JSON.stringify(data));
-        }
+        response.end(JSON.stringify(data));
     });
 });
 

@@ -63,7 +63,7 @@ class Index extends React.Component {
                          />}
                     />
                 ):
-                    <Redirect path="/map" to="/login/donor" />
+                    <Redirect path="/map" to="/login" />
             }
 
             {
@@ -77,7 +77,7 @@ class Index extends React.Component {
                         />}
                     />
                 ):
-                    <Redirect path="/map" to="/login/donor" />
+                    <Redirect path="/map" to="/login" />
             }
 
             {
@@ -89,7 +89,7 @@ class Index extends React.Component {
                         />}
                     />
                 ):
-                    <Redirect path="/map" to="/login/donor" />
+                    <Redirect path="/map" to="/login" />
             }
 
             {
@@ -103,19 +103,20 @@ class Index extends React.Component {
                       />}
                     />
                 ):
-                    <Redirect path="/profile" to="/login/donor" />
+                    <Redirect path="/profile" to="/login" />
             }
-            
+
             {
                 this.state.user ? (
                     <Route
                       path="/icebreaker"
                       render={props => <IcebreakerPage {...props}
                       setContext={this.setContext}
+                      user={this.state.user}
                       matched={this.state.matched} />}
                     />
                 ):
-                    <Redirect path="/icebreaker" to="/login/donor" />
+                    <Redirect path="/icebreaker" to="/login" />
             }
 
             {

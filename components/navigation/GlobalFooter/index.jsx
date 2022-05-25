@@ -10,6 +10,7 @@ import './index.css';
 
 // via https://v4.mui.com/guides/composition/#LinkRouter.js
 export default function GlobalFooter(props) {
+        
     return (
         <div id="GlobalFooter">
             <IconButton

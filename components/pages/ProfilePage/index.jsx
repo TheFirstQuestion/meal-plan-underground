@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, Link, Divider } from '@material-ui/core';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -14,6 +17,10 @@ const useStyles = makeStyles({
     },
 });
 
+function ListItemLink(props) {
+    return <ListItem button component="a" {...props} />;
+}
+
 export default function ProfilePage({...props}) {
     const classes = useStyles();
     useEffect(() => {
@@ -23,7 +30,11 @@ export default function ProfilePage({...props}) {
     return (
         <div id="profile-page-wrapper">
             <div className="row">
-                <Avatar className={classes.avatar} alt={props.user.first_name + " " + props.user.last_name} src={"../../static/images/profile-photos/" + props.user.photo_path} />
+                <Avatar
+                    className={classes.avatar}
+                    alt={props.user.first_name + " " + props.user.last_name}
+                    src={"../../static/images/profile-photos/" + props.user.photo_path}
+                />
                 <div className="nameHeader">
                     <Typography variant="h1">{props.user.first_name}</Typography>
                     <br />
@@ -54,7 +65,38 @@ export default function ProfilePage({...props}) {
                 <Typography variant="subtitle2">Bio:</Typography>
                 <Typography>{props.user.biography}</Typography>
             </div>
-            <div className="row">
+
+            <Divider />
+            <div>
+                <Typography variant="subtitle2">Quick Links:</Typography>
+                <List component="nav" aria-label="quick links">
+                    <ListItem>
+                        <Link
+                            variant="body1"
+                            href="https://rde.stanford.edu/dining/dining-locations-hours"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >Dining Hall Locations and Hours</Link>
+                    </ListItem>
+                    <ListItem>
+                        <Link
+                            variant="body1"
+                            href="https://rdeapp.stanford.edu/MyMealPlan/Account"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >Your Meal Plan Balance</Link>
+                    </ListItem>
+                    <ListItem>
+                        <Link
+                            variant="body1"
+                            href="https://rdeapps.stanford.edu/DiningHallMenu/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >Dining Hall Menus</Link>
+                    </ListItem>
+                </List>
+            </div>
+            {/*<div className="row">
                 <div className="numberBlock">
                     <Typography variant="h2">{props.user.swipes_remaining}</Typography>
                     <Typography variant="subtitle1">Weekly Swipes Remaining</Typography>
@@ -73,7 +115,7 @@ export default function ProfilePage({...props}) {
                     <Typography variant="h2">53</Typography>
                     <Typography variant="subtitle1">Lifetime Swipes Received</Typography>
                 </div>
-            </div>
+            </div>*/}
         </div>
     );
 }

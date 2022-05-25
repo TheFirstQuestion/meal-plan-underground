@@ -37,12 +37,16 @@ export default function MapPage({...props}) {
 
     // get the people at eat dining hall and store
     props.DINING_HALLS.forEach((item, i) => {
-        axios.get("/list/users/" + item._id).then((response) => {
-            item.people = response.data;
-            item.numPeople = response.data.length;
-        }).catch((err) => {
-            console.log(err);
-        });
+        // condition on it having loaded with values (TODO: fix this)
+        // via https://stackoverflow.com/a/32108184
+        if (!(item && Object.keys(item).length === 0 && Object.getPrototypeOf(item) === Object.prototype)) {
+            axios.get("/list/users/" + item._id).then((response) => {
+                item.people = response.data;
+                item.numPeople = response.data.length;
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
     });
 
     const handleMatchOpen = (newHall, newPeople) => {

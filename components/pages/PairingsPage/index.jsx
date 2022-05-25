@@ -25,12 +25,15 @@ const useStyles = makeStyles({
 
 export default function PairingsPage({...props}) {
     const [people, setPeople] = useState(null);
+
     useEffect(() => {
         props.setContext("Pairings");
         // Get the pairings the user is involved in
         axios.get("/list/pairings").then((response) => {
-            // Get their partner in that pairing
-            setPeople(response.data.map((pairing => (props.user.isDonor ? pairing.recipient : pairing.donor))));
+            // Get their partner in pairing (if any pairings)
+            if (response.data.length > 0) {
+                setPeople(response.data.map((pairing => (props.user.isDonor ? pairing.recipient : pairing.donor))));
+            }
         }).catch((err) => {
             console.log(err);
         });
