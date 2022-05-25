@@ -83,22 +83,22 @@ function MatchListPopup({...props}) {
             </ListItemAvatar>
             <ListItemText primary="Surprise Me!" />
             <HashRouter>
-                <Button 
-                  onClick={() => handleListItemClick(randomPerson)} 
-                  href={'#/icebreaker/:' + randomPerson._id} 
-                  variant="contained" 
+                <Button
+                  onClick={() => handleListItemClick(randomPerson)}
+                  href={'#/icebreaker/:' + randomPerson._id}
+                  variant="contained"
                   style={{
-                    backgroundColor: '#508347', 
-                    color: 'white', 
+                    backgroundColor: '#508347',
+                    color: 'white',
                     textTransform: 'none'
                   }}>
                     match
                   </Button>
-                <Route 
-                  path={"/icebreaker/:person" + randomPerson._id} 
+                <Route
+                  path={"/icebreaker/:person" + randomPerson._id}
                   render={props => <IcebreakerPage {...props}/>}
                 />
-            </HashRouter>            
+            </HashRouter>
           </ListItem>
         </List>
       </Dialog>

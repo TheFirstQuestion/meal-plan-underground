@@ -12,6 +12,7 @@ export default function HomePage({...props}) {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [major, setMajor] = useState("");
+    const [biography, setBiography] = useState("");
     const [isDonor, setIsDonor] = useState(true);
     const [hasLoginError, setHasLoginError] = useState(false);
     const [hasRegisterError, setHasRegisterError] = useState(false);
@@ -43,7 +44,7 @@ export default function HomePage({...props}) {
     }, [email, password]);
 
     const register = useCallback(() => {
-        if (!email || !password || !firstName || !lastName || !major) {
+        if (!email || !password || !firstName || !lastName || !major || !biography) {
             setHasRegisterError(true);
             return;
         }
@@ -66,8 +67,9 @@ export default function HomePage({...props}) {
             password,
             first_name: firstName,
             last_name: lastName,
-            isDonor: isDonor,
-            major: major,
+            isDonor,
+            major,
+            biography,
         })
         .then((response) => {
             props.setUser(response.data);
@@ -83,7 +85,8 @@ export default function HomePage({...props}) {
         firstName,
         lastName,
         isDonor,
-        major
+        major,
+        biography,
     ]);
 
     const toggleRegisterModal = useCallback(() => {
@@ -109,6 +112,10 @@ export default function HomePage({...props}) {
     const handleMajorChange = useCallback((e) => {
         setMajor(e.target.value);
     }, [major]);
+
+    const handleBiographyChange = useCallback((e) => {
+        setBiography(e.target.value);
+    }, [biography]);
 
     const handleIsDonorChange = useCallback((e) => {
         setIsDonor(e.target.value);
@@ -222,6 +229,19 @@ export default function HomePage({...props}) {
                         }}
                     />
                     <TextField
+                        className="register-input bio-input"
+                        id="outlined-multiline-static"
+                        label="Bio"
+                        variant="outlined"
+                        onChange={handleBiographyChange}
+                        rows={4}
+                        required
+                        multiline
+                        style={{
+                            marginBottom: '20px'
+                        }}
+                    />
+                    <TextField
                         className="register-input email-input"
                         id="outlined-basic"
                         label="Stanford Email"
@@ -276,7 +296,7 @@ export default function HomePage({...props}) {
                                 marginTop: '5px',
                             }}
                         >
-                            Error registering. Please try agian.
+                            Error registering. Please populate all fields.
                         </Typography>
                     )}
                 </div>
