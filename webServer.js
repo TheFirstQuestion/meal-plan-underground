@@ -56,10 +56,10 @@ app.post('/register', function (request, response) {
 });
 
 app.post('/login', function (request, response) {
-    const email = request.body.email;
+    const emailPrefix = request.body.emailPrefix;
     const password = request.body.password;
 
-    User.findOne({emailPrefix: email}).exec(function (err, user) {
+    User.findOne({emailPrefix}).exec(function (err, user) {
         bcrypt.compare(password, user.password).then(function(result) {
             if (result == false) {
                 // Password was incorrect.
@@ -84,51 +84,6 @@ app.post('/login', function (request, response) {
         });
     });
 });
-
-// Logs you in to the default recipient account (Alexis)
-/*app.get('/login/recipient', function (request, response) {
-    User.findOne({first_name: "Alexis", isDemoUser: true}).exec(function (err, user) {
-        if (err || user === null) {
-            // Query returned an error.
-            console.error('/login/recipient error:', err);
-            response.status(400).send(JSON.stringify(err));
-            return;
-        }
-        if (user.length === 0) {
-            // Query didn't return an error but didn't find the User object - this is also an internal error.
-            console.log("Couldn't find user");
-            response.status(400).send('Missing User');
-            return;
-        }
-
-        request.session.LOGGED_IN_USER = user;
-        console.log("\nLOGGED_IN_USER: " + request.session.LOGGED_IN_USER);
-        response.end(JSON.stringify(user));
-    });
-});
-
-// Logs you in to the default donor account (Nina)
-app.get('/login/donor', function (request, response) {
-    User.findOne({first_name: "Nina", isDemoUser: true}).exec(function (err, user) {
-        if (err || user === null) {
-            // Query returned an error.
-            console.error('/login/donor error:', err);
-            response.status(400).send(JSON.stringify(err));
-            return;
-        }
-        if (user.length === 0) {
-            // Query didn't return an error but didn't find the User object
-            console.log("Couldn't find user");
-            response.status(400).send('Missing User');
-            return;
-        }
-
-        request.session.LOGGED_IN_USER = user;
-        console.log("\nLOGGED_IN_USER: " + request.session.LOGGED_IN_USER);
-        response.end(JSON.stringify(user));
-    });
-});
-*/
 
 // Sets the current user's dining hall
 app.post('/set/dining_hall', function (request, response) {

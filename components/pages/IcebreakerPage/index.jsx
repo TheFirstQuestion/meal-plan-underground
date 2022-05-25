@@ -12,8 +12,8 @@ import { grey } from '@material-ui/core/colors';
 import Divider from '@material-ui/core/Divider';
 
 
-const icebreakers = ['Describe your ideal day.', "What's your favorite way to waste time?", 
-    'Hottest take / Unpopular opinion?', 'What would your life theme song be?', 
+const icebreakers = ['Describe your ideal day.', "What's your favorite way to waste time?",
+    'Hottest take / Unpopular opinion?', 'What would your life theme song be?',
     'Weirdest food combo you like?', 'Late Night vs. TAP?'];
 
 const useStyles = makeStyles({
@@ -68,7 +68,7 @@ function IcebreakerPage({...props}) {
                         <Typography>You</Typography>
                     </div>
                 </div>
-                
+
             </div>
             <Divider variant="middle" style={{width:'86%', backgroundColor: 'black', marginBottom: "8%"}}/>
             <Typography style={{textAlign: 'center'}} className='cs278-icebreaker-ibText' variant="h6">Let's Break the Ice</Typography>
