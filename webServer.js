@@ -119,10 +119,28 @@ app.post('/set/dining_hall', function (request, response) {
 
             user.dining_hall_id = data._id;
             user.save();
-            // console.log(user);
             response.end(JSON.stringify(user));
         });
+    });
+});
 
+// Sets the current user's donor status
+app.post('/set/is_donor', function (request, response) {
+    User.findOne({_id: request.session.LOGGED_IN_USER._id}).exec(function (err, user) {
+        if (err) {
+            // Query returned an error.
+            console.log('Doing /set/is_donor error:', err);
+            response.status(400).send(JSON.stringify(err));
+            return;
+        }
+        if (user.length === 0) {
+            // Query didn't return an error but didn't find the object
+            response.status(400).send('Missing User');
+            return;
+        }
+        user.isDonor = request.body.isDonor;
+        user.save();
+        response.end(JSON.stringify(user));
     });
 });
 

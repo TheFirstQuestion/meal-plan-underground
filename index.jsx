@@ -100,6 +100,7 @@ class Index extends React.Component {
                           {...props}
                           setContext={this.setContext}
                           user={this.state.user}
+                          setUser={this.setUser}
                       />}
                     />
                 ):
