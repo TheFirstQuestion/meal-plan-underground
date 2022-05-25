@@ -26,9 +26,11 @@ export default function HomePage({...props}) {
     }
 
     const login = useCallback(() => {
+        email.trim();
+        const emailPrefix = email.replace('@stanford.edu', '');
         axios.post("/login", {
-            email: email,
-            password: password,
+            emailPrefix,
+            password,
         })
         .then((response) => {
             props.setUser(response.data);
@@ -41,23 +43,27 @@ export default function HomePage({...props}) {
     }, [email, password]);
 
     const register = useCallback(() => {
-        // TODO: check if email exists already or make email unique field
-        if (!email || !password || !firstName || !lastName || !isDonor || !major) {
+        if (!email || !password || !firstName || !lastName || !major) {
             setHasRegisterError(true);
             return;
         }
-        setHasRegisterError(false);
 
-        const emailIsValid = validator.validate(email);
-        if (!emailIsValid) {
+        setHasRegisterError(false);
+        email.trim();
+
+        const isStanfordEmail = email.endsWith('@stanford.edu');
+        const isValidEmail = validator.validate(email);
+        if (!isStanfordEmail || !isValidEmail) {
             setHasInvalidEmail(true);
             return;
         }
+
         setHasInvalidEmail(false);
+        const emailPrefix = email.replace('@stanford.edu', '');
 
         axios.post("/register", {
-            email: email,
-            password: password,
+            emailPrefix,
+            password,
             first_name: firstName,
             last_name: lastName,
             isDonor: isDonor,
@@ -122,7 +128,7 @@ export default function HomePage({...props}) {
                     <TextField
                         className="login-input email-input"
                         id="outlined-basic"
-                        label="Email"
+                        label="Stanford Email"
                         variant="outlined"
                         onChange={handleEmailChange}
                         required
@@ -220,7 +226,7 @@ export default function HomePage({...props}) {
                         id="outlined-basic"
                         label="Stanford Email"
                         error={hasInvalidEmail}
-                        helperText={hasInvalidEmail ? "Email format is invalid." : ""}
+                        helperText={hasInvalidEmail ? "Must be a valid @stanford.edu address." : ""}
                         variant="outlined"
                         onChange={handleEmailChange}
                         required
