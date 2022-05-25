@@ -45,10 +45,11 @@ function MatchListPopup({...props}) {
 
     const dh = props.DINING_HALLS.filter(h => h.name === hall.name)[0];
     const people = dh.people;
+    // ** there seems to be no people property of the dining halls so people is undefined
 
-    // TODO: only allow surprise match if there is at least two people in the dining hall
     const randomPerson = people ? people[getRandomInt(0, people.length - 1)] : {};
 
+    
     return (
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">{hall.name}: {num} {props.user.isDonor ? "recipients" : "donors"}</DialogTitle>
@@ -77,31 +78,35 @@ function MatchListPopup({...props}) {
             </ListItem>
         )) : <></>
       }
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar className={classes.avatar}>
-                <ShuffleIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Surprise Me!" />
-            <HashRouter>
-                <Button
-                  onClick={() => handleListItemClick(randomPerson)}
-                  href={'#/icebreaker/:' + randomPerson._id}
-                  variant="contained"
-                  style={{
-                    backgroundColor: '#508347',
-                    color: 'white',
-                    textTransform: 'none'
-                  }}>
-                    match
-                  </Button>
-                <Route
-                  path={"/icebreaker/:person" + randomPerson._id}
-                  render={props => <IcebreakerPage {...props}/>}
-                />
-            </HashRouter>
+          { people ? (people.length > 1 ?
+            (
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar className={classes.avatar}>
+                  <ShuffleIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Surprise Me!" />
+              <HashRouter>
+                  <Button 
+                    onClick={() => handleListItemClick(randomPerson)} 
+                    href={'#/icebreaker/:' + randomPerson._id} 
+                    variant="contained" 
+                    style={{
+                      backgroundColor: '#508347', 
+                      color: 'white', 
+                      textTransform: 'none'
+                    }}>
+                      match
+                    </Button>
+                  <Route 
+                    path={"/icebreaker/:person" + randomPerson._id} 
+                    render={props => <IcebreakerPage {...props}/>}
+                  />
+              </HashRouter>            
           </ListItem>
+          ) : <></>) : <></>
+          }
         </List>
       </Dialog>
     );
@@ -112,7 +117,6 @@ MatchListPopup.propTypes = {
     open: PropTypes.bool.isRequired,
     selectedValue: PropTypes.object,
     hall: PropTypes.object,
-    num: PropTypes.number.isRequired,
     user: PropTypes.object.isRequired,
     people: PropTypes.array,
 };
