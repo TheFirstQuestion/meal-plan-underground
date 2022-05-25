@@ -58,9 +58,11 @@ function MatchListPopup({...props}) {
 
             <ListItem key={person._id}>
                 <ListItemAvatar>
-                    <Avatar className={classes.avatar}>
-                        <PersonIcon />
-                    </Avatar>
+                    <Avatar
+                        className={classes.avatar}
+                        alt={person.first_name + " " + person.last_name}
+                        src={"../../static/images/profile-photos/" + (props.user.photo_path ? props.user.photo_path : "default.png")}
+                    />
                 </ListItemAvatar>
                 <div className='cs278-map-userInfo'>
                     <Typography style={{fontWeight:'bold'}} variant='body1'>{person.first_name}</Typography>
