@@ -234,7 +234,7 @@ export default function HomePage({...props}) {
                         label="Bio"
                         variant="outlined"
                         onChange={handleBiographyChange}
-                        rows={4}
+                        rows={2}
                         required
                         multiline
                         style={{
@@ -267,7 +267,7 @@ export default function HomePage({...props}) {
                         }}
                     />
                     <InputLabel style={{ marginBottom: '10px' }}>
-                        Do you plan to give meal swipes or recieve meal swipes?
+                        Do you plan to give meal swipes or receive meal swipes?
                     </InputLabel>
                     <Select
                         value={isDonor}
@@ -278,7 +278,7 @@ export default function HomePage({...props}) {
                         }}
                     >
                         <MenuItem value={true}>I plan to give meal swipes.</MenuItem>
-                        <MenuItem value={false}>I plan to recieve meal swipes.</MenuItem>
+                        <MenuItem value={false}>I plan to receive meal swipes.</MenuItem>
                     </Select>
                     <Button
                         className="register-btn"

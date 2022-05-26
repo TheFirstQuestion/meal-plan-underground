@@ -48,6 +48,7 @@ app.post('/register', function (request, response) {
                 return;
             }
             data.save();
+            request.session.LOGGED_IN_USER = data;
             response.end(JSON.stringify(data));
         });
     }).catch(function(err) {
@@ -119,10 +120,30 @@ app.post('/set/dining_hall', function (request, response) {
 
             user.dining_hall_id = data._id;
             user.save();
-            // console.log(user);
             response.end(JSON.stringify(user));
         });
+    });
+});
 
+// Sets the current user's donor status
+app.post('/set/is_donor', function (request, response) {
+    User.findOne({_id: request.session.LOGGED_IN_USER._id}).exec(function (err, user) {
+        if (err) {
+            // Query returned an error.
+            console.log('Doing /set/is_donor error:', err);
+            response.status(400).send(JSON.stringify(err));
+            return;
+        }
+        if (user.length === 0) {
+            // Query didn't return an error but didn't find the object
+            response.status(400).send('Missing User');
+            return;
+        }
+        const isDonor = request.body.isDonor;
+        user.isDonor = isDonor;
+        user.save();
+        request.session.LOGGED_IN_USER.isDonor = isDonor;
+        response.end(JSON.stringify(user));
     });
 });
 
@@ -140,20 +161,20 @@ app.get('/list/dining_halls', function (request, response) {
             response.status(400).send('Missing Dining Halls');
             return;
         }
-
         // We got the data - return them in JSON format
         response.end(JSON.stringify(data));
     });
 });
 
 // List all the users at a dining hall
-app.get('/list/users/:dining_hall_id', function (request, response) {
+app.get('/list/users/:dining_hall_id/:is_donor', function (request, response) {
     if (!request.session.LOGGED_IN_USER) {
         return;
     }
     const dining_hall_id = request.params.dining_hall_id;
+    const isDonor = request.params.is_donor == "true" ? true : false;
 
-    User.find({dining_hall_id: dining_hall_id, isDonor: !request.session.LOGGED_IN_USER.isDonor}).exec(function (err, data) {
+    User.find({dining_hall_id: dining_hall_id, isDonor: !isDonor}).exec(function (err, data) {
         if (err) {
             // Query returned an error
             console.error('Doing /list/users/:dining_hall_id error:', err);
@@ -164,7 +185,7 @@ app.get('/list/users/:dining_hall_id', function (request, response) {
             // No one is at this dining hall
             // probably there's a more efficient way to do this query first and then filter for the above, but whatever
             if (request.session.LOGGED_IN_USER.isDemoUser) {
-                User.find({isDemoUser: true, isDonor: !request.session.LOGGED_IN_USER.isDonor}).exec(function (err, data) {
+                User.find({isDemoUser: true, isDonor: !isDonor}).exec(function (err, data) {
                     if (err || data === null) {
                         // Query returned an error.
                         console.error('/list/users/:dining_hall_id error:', err);
@@ -179,7 +200,6 @@ app.get('/list/users/:dining_hall_id', function (request, response) {
                 return;
             }
         }
-        console.log(data);
         // We got the data - return them in JSON format
         response.end(JSON.stringify(data));
     });

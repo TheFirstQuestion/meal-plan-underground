@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Typography, Button, Link, Divider } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 
 import './index.css';
 
@@ -24,6 +25,28 @@ function ListItemLink(props) {
 export default function ProfilePage({...props}) {
     const classes = useStyles();
     const photoPath = props.user.photo_path ? props.user.photo_path : "default.png";
+    const [isDonor, setIsDonor] = useState(props.user.isDonor);
+
+    const handleIsDonor = (willDonate) => {
+        axios.post("/set/is_donor", {
+            isDonor: willDonate
+        })
+        .then((response) => {
+            setIsDonor(willDonate);
+            props.setUser(response.data);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    };
+
+    const handleReceiveClick = () => {
+        handleIsDonor(false);
+    }
+
+    const handleDonateClick = () => {
+        handleIsDonor(true);
+    };
 
     useEffect(() => {
         props.setContext("Profile");
@@ -47,15 +70,15 @@ export default function ProfilePage({...props}) {
             <div className="row">
                 <Typography variant="subtitle2">I want to...</Typography>
                 {
-                    props.user.isDonor ? (
+                    isDonor ? (
                         <>
-                        <Button variant="outlined" id="button-inactive" disableElevation>receive</Button>
-                        <Button variant="contained" id="button-active" disableElevation>donate</Button>
+                        <Button variant="outlined" id="button-inactive" onClick={handleReceiveClick} disableElevation>receive</Button>
+                        <Button variant="contained" id="button-active" onClick={handleDonateClick} disableElevation>donate</Button>
                         </>
                     ):
                         <>
-                        <Button variant="contained" id="button-active" disableElevation>receive</Button>
-                        <Button variant="outlined" id="button-inactive" disableElevation>donate</Button>
+                        <Button variant="contained" id="button-active" onClick={handleReceiveClick} disableElevation>receive</Button>
+                        <Button variant="outlined" id="button-inactive" onClick={handleDonateClick} disableElevation>donate</Button>
                         </>
                 }
             </div>
