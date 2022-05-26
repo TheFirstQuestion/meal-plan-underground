@@ -147,6 +147,25 @@ app.post('/set/is_donor', function (request, response) {
     });
 });
 
+app.post('/create/pairing', function (request, response) {
+    const newPairing = request.body;
+    Pairing.create(newPairing, function (err, data) {
+        if (err || data === null) {
+            // Query returned an error.
+            console.error('/create/pairing error: ', err);
+            response.status(400).send(JSON.stringify(err));
+            return;
+        }
+        if (data.length === 0) {
+            // Query didn't return an error but couldn't create the Pairing object - this is also an internal error.
+            response.status(400).send("Couldn't create pairing :/");
+            return;
+        }
+        data.save();
+        response.end(JSON.stringify(data));
+    });
+});
+
 // List all the dining halls
 app.get('/list/dining_halls', function (request, response) {
     DiningHall.find({}).exec(function (err, data) {

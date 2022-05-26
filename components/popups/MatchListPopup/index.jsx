@@ -1,5 +1,7 @@
 import React from 'react';
 import './index.css';
+import axios from 'axios';
+import './index.css';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
@@ -39,8 +41,20 @@ function MatchListPopup({...props}) {
     };
 
     const handleListItemClick = (value) => {
+      axios.post("/create/pairing", {
+        donor: props.user,
+        recipient: value,
+        dining_hall: hall,
+        swipe_completed: false,
+        date_time: new Date(),
+      })
+      .then(() => {
         onClose(value);
         props.setMatched(value);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     };
 
     const dh = props.DINING_HALLS.filter(h => h.name === hall.name)[0];
@@ -49,10 +63,10 @@ function MatchListPopup({...props}) {
 
     const randomPerson = people ? people[getRandomInt(0, people.length - 1)] : {};
 
-    
+
     return (
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-        <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">{hall.name}: {num} {props.user.isDonor ? "recipients" : "donors"}</DialogTitle>
+        <DialogTitle className='cs278-map-dialogTitle' id="simple-dialog-title">{hall.name}: {num} {props.user.isDonor ? "Recipients" : "Donors"}</DialogTitle>
         <List className='cs278-map-list'>
           { people ?
               people.map((person) => (
@@ -88,22 +102,22 @@ function MatchListPopup({...props}) {
               </ListItemAvatar>
               <ListItemText primary="Surprise Me!" />
               <HashRouter>
-                  <Button 
-                    onClick={() => handleListItemClick(randomPerson)} 
-                    href={'#/icebreaker/:' + randomPerson._id} 
-                    variant="contained" 
+                  <Button
+                    onClick={() => handleListItemClick(randomPerson)}
+                    href={'#/icebreaker/:' + randomPerson._id}
+                    variant="contained"
                     style={{
-                      backgroundColor: '#508347', 
-                      color: 'white', 
+                      backgroundColor: '#508347',
+                      color: 'white',
                       textTransform: 'none'
                     }}>
                       match
                     </Button>
-                  <Route 
-                    path={"/icebreaker/:person" + randomPerson._id} 
+                  <Route
+                    path={"/icebreaker/:person" + randomPerson._id}
                     render={props => <IcebreakerPage {...props}/>}
                   />
-              </HashRouter>            
+              </HashRouter>
           </ListItem>
           ) : <></>) : <></>
           }
