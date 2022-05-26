@@ -4,7 +4,7 @@ _CS 278, Spring 2022_
 ---
 
 ## Install
-`npm install`   
+`npm install`
 `npm install -g nodemon`
 
 ## Environment
@@ -23,8 +23,8 @@ PORT=3000
 
 
 ## Running
-`mongod --config /usr/local/etc/mongod.conf` - Starts the MongoDB server.  
-`npm run build:w` - Runs Webpack like the `run build` command except it invokes webpack with `--watch` so it will monitor the React components and regenerates the bundle if any of them change.  
+`mongod --config /usr/local/etc/mongod.conf` - Starts the MongoDB server.
+`npm run build:w` - Runs Webpack like the `run build` command except it invokes webpack with `--watch` so it will monitor the React components and regenerates the bundle if any of them change.
 `nodemon webServer.js` - Watch for any changes to the server code and automatically restart the web server. (You can restart it manually by typing the two character command `rs` at the nodemon command.)
 <!-- `node loadDatabase.js` - This program loads the fake model data into the database.   -->
 
@@ -117,7 +117,7 @@ _This table is hardcoded and never edited. See dining hall reference below for t
 
 ---
 
-Material UI Documentation: https://v4.mui.com/  
+Material UI Documentation: https://v4.mui.com/
 
 ---
 
@@ -130,9 +130,10 @@ Material UI Documentation: https://v4.mui.com/
 * create a pairing
 
 
-probably not do:  
+probably not do:
 * switch to donate / receive
 
 
-other to do:  
+other to do:
 * cookies!
+
