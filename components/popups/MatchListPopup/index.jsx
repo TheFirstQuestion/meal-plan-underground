@@ -41,7 +41,7 @@ function MatchListPopup({...props}) {
       onClose(selectedValue);
     };
 
-    const handleListItemClick = useCallback(() => {
+    const handleListItemClick = useCallback((value) => {
       const isDonor = props.user.isDonor;
       const donor = isDonor ? props.user : value;
       const recipient = isDonor ? value :  props.user;
@@ -67,7 +67,6 @@ function MatchListPopup({...props}) {
     // ** there seems to be no people property of the dining halls so people is undefined
 
     const randomPerson = people ? people[getRandomInt(0, people.length - 1)] : {};
-
 
     return (
       <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
