@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './index.css';
 import axios from 'axios';
 import './index.css';
@@ -36,14 +36,19 @@ function MatchListPopup({...props}) {
     const classes = useStyles();
     const { onClose, selectedValue, open, hall, num } = props;
 
+
     const handleClose = () => {
       onClose(selectedValue);
     };
 
-    const handleListItemClick = (value) => {
+    const handleListItemClick = useCallback(() => {
+      const isDonor = props.user.isDonor;
+      const donor = isDonor ? props.user : value;
+      const recipient = isDonor ? value :  props.user;
+
       axios.post("/create/pairing", {
-        donor: props.user,
-        recipient: value,
+        donor,
+        recipient,
         dining_hall: hall,
         swipe_completed: false,
         date_time: new Date(),
@@ -55,7 +60,7 @@ function MatchListPopup({...props}) {
       .catch((err) => {
         console.error(err);
       });
-    };
+    }, [props.user]);
 
     const dh = props.DINING_HALLS.filter(h => h.name === hall.name)[0];
     const people = dh.people;
